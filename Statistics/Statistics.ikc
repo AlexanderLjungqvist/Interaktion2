@@ -9,15 +9,15 @@
     <module  class = "Dynamixel"  name = "Servo5"  device = "/dev/cu.usbserial-A4012AK3" index_mode = "indirect"  printf_info ="full" use_feedback ="true"  baud_rate = "1000000"  angle_unit = "degrees"  servo_id = "5"/>
 
     <!--Modul & connection för TORQUE för Toque med conection till motor 1,2,3,4,5-->
-    <module class = "Constant" name = "TorqueEnableF2" outputsize = "1"  data = "1"/>
-    <module class = "Constant" name = "TorqueEnableF3" outputsize = "1"  data = "1"/>
-    <module class = "Constant" name = "TorqueEnableF4" outputsize = "1"  data = "1"/>
-    <module class = "Constant" name = "TorqueEnableF5" outputsize = "1"  data = "1"/>
+    <module class = "Constant" name = "TorqueLimitF2" outputsize = "1"  data = "1"/>
+    <module class = "Constant" name = "TorqueLimitF3" outputsize = "1"  data = "1"/>
+    <module class = "Constant" name = "TorqueLimitF4" outputsize = "1"  data = "1"/>
+    <module class = "Constant" name = "TorqueLimitF5" outputsize = "1"  data = "1"/>
     <!--CONNECTION för TOQRQUE - skapa möjlighet för en slider-->
-    <connection  sourcemodule = "TorqueEnableF2" source = "OUTPUT"  targetmodule = "Servo2" target = "TORQUE_ENABLE"/>
-    <connection  sourcemodule = "TorqueEnableF3" source = "OUTPUT"  targetmodule = "Servo3" target = "TORQUE_ENABLE"/>
-    <connection  sourcemodule = "TorqueEnableF4" source = "OUTPUT"  targetmodule = "Servo4" target = "TORQUE_ENABLE"/>
-    <connection  sourcemodule = "TorqueEnableF5" source = "OUTPUT"  targetmodule = "Servo5" target = "TORQUE_ENABLE"/>
+    <connection  sourcemodule = "TorqueLimitF2" source = "OUTPUT"  targetmodule = "Servo2" target = "TORQUE_LIMIT"/>
+    <connection  sourcemodule = "TorqueLimitF3" source = "OUTPUT"  targetmodule = "Servo3" target = "TORQUE_LIMIT"/>
+    <connection  sourcemodule = "TorqueLimitF4" source = "OUTPUT"  targetmodule = "Servo4" target = "TORQUE_LIMIT"/>
+    <connection  sourcemodule = "TorqueLimitF5" source = "OUTPUT"  targetmodule = "Servo5" target = "TORQUE_LIMIT"/>
 
     <!--Modul & connection för LJUS till servo 2,3,4,5-->
     <module  class = "Constant"  name = "LED"  outputsize = "1"  data = "1"/>
@@ -39,8 +39,6 @@
     <connection  sourcemodule = "MovingSpeedF3"  source = "OUTPUT" targetmodule = "Servo3" target = "MOVING_SPEED"/>
     <connection  sourcemodule = "MovingSpeedF4"  source = "OUTPUT" targetmodule = "Servo4" target = "MOVING_SPEED"/>
     <connection  sourcemodule = "MovingSpeedF5"  source = "OUTPUT" targetmodule = "Servo5" target = "MOVING_SPEED"/>
-
-
 
       <!--Metrics för Voltage Ampere och Temp -->
     <view name="TEMP, VOLTAGE O AMP" object_size="50" >
@@ -102,16 +100,16 @@
     </view>
     <view name="TORQUE o SPEED" object_size="50" >
       <!--TORQUE och Speed-->
-      <object  class="BarGraph" title="TORQUEF2" module = "TorqueEnableF2" source = "OUTPUT"  x="1" y="0" w="2" h="2"  max="1"/>
-      <object  class="BarGraph" title="TORQUEF3" module = "TorqueEnableF3" source = "OUTPUT"  x="4" y="0" w="2" h="2"  max="1"/>
-      <object  class="BarGraph" title="TORQUEF4" module = "TorqueEnableF4" source = "OUTPUT"  x="7" y="0" w="2" h="2"  max="1"/>
-      <object  class="BarGraph" title="TORQUEF5" module = "TorqueEnableF5" source = "OUTPUT"  x="10" y="0" w="2" h="2"  max="1"/>
+      <object  class="BarGraph" title="TORQUEF2" module = "TorqueLimitF2" source = "OUTPUT"  x="1" y="0" w="2" h="2"  max="1"/>
+      <object  class="BarGraph" title="TORQUEF3" module = "TorqueLimitF3" source = "OUTPUT"  x="4" y="0" w="2" h="2"  max="1"/>
+      <object  class="BarGraph" title="TORQUEF4" module = "TorqueLimitF4" source = "OUTPUT"  x="7" y="0" w="2" h="2"  max="1"/>
+      <object  class="BarGraph" title="TORQUEF5" module = "TorqueLimitF5" source = "OUTPUT"  x="10" y="0" w="2" h="2"  max="1"/>
 
       <!--TORQUE SLIDERS-->
-      <object class="Slider" title="TORQUEF2" module = "TorqueEnableF2" parameter = "data" xindex = "0"  x="3" y="0" h="2" max="1"/>
-      <object class="Slider" title="TORQUEF3" module = "TorqueEnableF3" parameter = "data" xindex = "3"  x="3" y="0" h="2" max="1"/>
-      <object class="Slider" title="TORQUEF4" module = "TorqueEnableF4" parameter = "data" xindex = "6"  x="3" y="0" h="2" max="1"/>
-      <object class="Slider" title="TORQUEF5" module = "TorqueEnableF5" parameter = "data" xindex = "9"  x="3" y="0" h="2" max="1"/>
+      <object class="Slider" title="TORQUEF2" module = "TorqueLimitF2" parameter = "data" xindex = "0"  x="3" y="0" h="2" max="1"/>
+      <object class="Slider" title="TORQUEF3" module = "TorqueLimitF3" parameter = "data" xindex = "3"  x="3" y="0" h="2" max="1"/>
+      <object class="Slider" title="TORQUEF4" module = "TorqueLimitF4" parameter = "data" xindex = "6"  x="3" y="0" h="2" max="1"/>
+      <object class="Slider" title="TORQUEF5" module = "TorqueLimitF5" parameter = "data" xindex = "9"  x="3" y="0" h="2" max="1"/>
 
       <!--Rörelsehastighet för alla servos-->
       <object  class="BarGraph" title="Speed" module = "MovingSpeedF2" source = "OUTPUT"  x="1" y="3" w="2" h="2"  max="1"/>

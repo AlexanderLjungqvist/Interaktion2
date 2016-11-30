@@ -23,11 +23,11 @@
     	//
     	// 2003-01-14 and 2007-01-01 Updated for the new simulator
 
-    	#include "Sum.h"
+    	#include "Statistics.h"
 
 
 
-    	void Sum::Init()
+    	void Statistics::Init()
     	{
     	    size = GetInputSize("INPUT1");
     	    input1  = GetInputArray("INPUT1");
@@ -35,7 +35,7 @@
     	    output  = GetOutputArray("OUTPUT");
     	}
 
-    	void Sum::Tick()
+    	void Statistics::Tick()
     	{
     	    int i;
 
