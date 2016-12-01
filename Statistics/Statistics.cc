@@ -50,4 +50,4 @@
 
       // Install the module. This code is executed during start-up.
 
-      static InitClass init("Sum", &Sum::Create, "Source/UserModules/Sum/");
+      static InitClass init("Statistics", &Statistics::Create, "Source/UserModules/Statistics/");
