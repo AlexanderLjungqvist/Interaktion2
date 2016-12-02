@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<group name="StatisticsRegulator" description="Made to regulate amount of power in the TORQUE for servos">
+
+	<example description="Our first module">
+		<module
+			class="StatisticsRegulator"
+			name="StatisticsRegulator"
+		/>
+	</example>
+
+	<output name="OUTPUT_servo_id" description="Output position servos" size="6" />
+
+	<module class="StatisticsRegulator" />
+
+   <files>
+   		<file>Statistics.h</file>
+   		<file>Statistics.cc</file>
+   		<file>StatisticsRegulator.ikc</file>
+   </files>
+
+</group>
