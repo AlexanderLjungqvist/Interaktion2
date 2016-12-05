@@ -12,7 +12,7 @@ void
 Statistics::Init()
 {
     //Samlat samtliga outputs viktiga för att kunna se vilka värden som ska och inte ska användas.
-    OUTPUT_servo_id = GetOutputArray("OUTPUT_servo_id");
+    OUTPUT_servo = GetOutputArray("OUTPUT_servo_id");
     output_voltage = GetOutputArray("FEEDBACK_PRESENT_VOLTAGE");
     output_temperature = GetOutputArray("FEEDBACK_PRESENT_TEMPERATURE");
     output_ampere = GetOutputArray("FEEDBACK_PRESENT_CURRENT");

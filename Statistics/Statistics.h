@@ -31,7 +31,7 @@ public:
     float *         output_ampere;
     float *         output_voltage;
     float *         output_torque;
-    float *         OUTPUT_servo_id;
+    float *         OUTPUT_servo;
 
     static Module * Create(Parameter * p) {return new Statistics(p);};
 
