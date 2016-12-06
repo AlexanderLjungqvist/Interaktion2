@@ -34,12 +34,12 @@ Statistics::Init()
 void
 Statistics::Tick()
 {
-int servoNbr = 2;
+int servoNbr = 0;
 int torque_temp;
 
 //Går genom samtliga motorer, mäter upp värdena och om de är över en viss temperatur går det igång en while-sats som sänker torquen tills det att temperatur nått en
 //behaglig nivå igen. Kan i framtiden konfliktera vilket gör att den bara sänker en motor i taget --ATT GÖRA-- se till att sänka temperaturen på flera motorer samtidigt.
-while(servobr < 5){
+while(servobr < 3){
 
 
     //printar ut alla värden för en servo  - oklart om detta fungerar
@@ -51,16 +51,19 @@ while(servobr < 5){
         while(output_temperature[servoNbr] > 28){
           printf("Slowing down the torque due to heat..." );
           output_torque[servoNbr] = output_torque[servoNbr] - 0.01;
+          sleep(500);
         }
-
-        prinf("Raising back torque to previous value");
-        output_torque[servoNbr] = torque_temp;
+        //För att återställa torquen
+        while(torque_temp > output_torque[servoNbr]){
+          prinf("Raising back torque to previous value...");
+          output_torque[servoNbr] = output_torque[servoNbr] + 0.02;
+          sleep(500);
+        }
     }
-
       //Detta görs för att starta om loopen och hålla koll på alla servomotorer - ATTGÖRA - lägg till formel så att beroende på motor har man en viss värme som gräns.
-      check ++;
-      if(check === 5){
-      check = 2;
+      servoNbr ++;
+      if(servoNbr === 3){
+      servoNbr = 0;
       }
 
     printf("%d\n", check);
