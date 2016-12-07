@@ -24,14 +24,19 @@
 
 #include "IKAROS.h"
 
-class Kinect_own: public Module {
+class Statistics: public Module {
 public:
-
-    float *         output_temperature;
-    float *         output_ampere;
-    float *         output_voltage;
+//INPUTS
+    float *         input_temperature;
+    float *         input_ampere;
+    float *         input_voltage;
+    float *         input_torque
+    float *         input_GoalPosition;
+//OUTPUTS
+    float *         output_servoPosition;
     float *         output_torque;
-    float *         OUTPUT_servo;
+
+
 
     static Module * Create(Parameter * p) {return new Statistics(p);};
 

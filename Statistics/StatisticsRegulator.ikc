@@ -9,7 +9,21 @@
 		/>
 	</example>
 
-	<output name="OUTPUT_servo_id" description="Output position servos" size="6" />
+	<input name = "GOAL_POSITION" description="Servo Goal POS" />
+	<input name = "FEEDBACK_POSITION" description="Servo POS" />
+
+	<input name = "FEEDBACK_TEMP" description="Servo Temp" />
+
+	<!--Skapat modul för nedanstående i riktigt Ikaros-->
+	<input name = "FEEDBACK_TORQUE_LIMIT" description="Servo TORQUE_LIMIT" />
+	<input name = "FEEDBACK_VOLTAGE" description="Servo Voltage" />
+	<input name = "FEEDBACK_CURRENT" description="Servo Ampere" />
+
+
+
+	<output name="TORQUE_LIMIT" description="Output position servos" set_size="POSITION" />
+	<output name="Diff" description="Difference goal pos och annat">
+
 
 	<module class="StatisticsRegulator" />
 
