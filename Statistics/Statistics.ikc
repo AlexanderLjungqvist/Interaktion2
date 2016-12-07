@@ -1,147 +1,36 @@
 <?xml version="1.0"?>
 
-<group title="Servo information">
+<group name="Statistics" description="Made to regulate amount of power in the TORQUE for servos">
+<!--
+	<example description="Our first module">
+		<module
+			class="StatisticsRegulator"
+			name="LAStat"
+		/>
+	</example>
+-->
+	<input name = "GOAL_POSITION" description="Servo Goal POS" />
+	<input name = "FEEDBACK_POSITION" description="Servo POS" />
+    <input name = "FEEDBACK_TORQUE_LIMIT" description="Servo TORQUE_LIMIT"/>
+	<input name = "FEEDBACK_TEMP" description="Servo Temp" />
 
-    <!--Modul för servomotorerna, SERVO6 utkommenterad tills vidare -->
-    <module  class = "Dynamixel"  name = "Servo2"  device = "/dev/cu.usbserial-A4012AK3" index_mode = "indirect"  printf_info ="full" use_feedback ="true"  baud_rate = "1000000"  angle_unit = "degrees"  servo_id = "2"/>
-    <module  class = "Dynamixel"  name = "Servo3"  device = "/dev/cu.usbserial-A4012AK3" index_mode = "indirect"  printf_info ="full" use_feedback ="true"  baud_rate = "1000000"  angle_unit = "degrees"  servo_id = "3"/>
-    <module  class = "Dynamixel"  name = "Servo4"  device = "/dev/cu.usbserial-A4012AK3" index_mode = "indirect"  printf_info ="full" use_feedback ="true"  baud_rate = "1000000"  angle_unit = "degrees"  servo_id = "4"/>
-    <module  class = "Dynamixel"  name = "Servo5"  device = "/dev/cu.usbserial-A4012AK3" index_mode = "indirect"  printf_info ="full" use_feedback ="true"  baud_rate = "1000000"  angle_unit = "degrees"  servo_id = "5"/>
+	<!--Skapat modul för nedanstående i riktigt Ikaros-->
+	<output name = "TORQUE_LIMIT" description="Servo TORQUE_LIMIT" size_set ="FEEDBACK_POSITION" />
+	<input name = "FEEDBACK_VOLTAGE" description="Servo Voltage" />
+	<input name = "FEEDBACK_CURRENT" description="Servo Ampere" />
 
-    <!--Modul & connection för TORQUE för Toque med conection till motor 1,2,3,4,5-->
-    <module class = "Constant" name = "TorqueLimitF2" outputsize = "1"  data = "1"/>
-    <module class = "Constant" name = "TorqueLimitF3" outputsize = "1"  data = "1"/>
-    <module class = "Constant" name = "TorqueLimitF4" outputsize = "1"  data = "1"/>
-    <module class = "Constant" name = "TorqueLimitF5" outputsize = "1"  data = "1"/>
-    <!--CONNECTION för TOQRQUE - skapa möjlighet för en slider-->
-    <connection  sourcemodule = "TorqueLimitF2" source = "OUTPUT"  targetmodule = "Servo2" target = "TORQUE_LIMIT"/>
-    <connection  sourcemodule = "TorqueLimitF3" source = "OUTPUT"  targetmodule = "Servo3" target = "TORQUE_LIMIT"/>
-    <connection  sourcemodule = "TorqueLimitF4" source = "OUTPUT"  targetmodule = "Servo4" target = "TORQUE_LIMIT"/>
-    <connection  sourcemodule = "TorqueLimitF5" source = "OUTPUT"  targetmodule = "Servo5" target = "TORQUE_LIMIT"/>
 
-    <!--Modul & connection för LJUS till servo 2,3,4,5-->
-    <module  class = "Constant"  name = "LED"  outputsize = "1"  data = "1"/>
-    <connection sourcemodule = "LED" source = "OUTPUT"  targetmodule = "Servo2" target = "LED"/>
-    <connection sourcemodule = "LED" source = "OUTPUT"  targetmodule = "Servo3" target = "LED"/>
-    <connection sourcemodule = "LED" source = "OUTPUT"  targetmodule = "Servo4" target = "LED"/>
-    <connection sourcemodule = "LED" source = "OUTPUT"  targetmodule = "Servo5" target = "LED"/>
 
-    <!--Moduler Switch och MOVINGSPEED-->
-    <module class = "Constant" name = "Switch" outputsize = "1"  data = "0"/>
+	<!--<output name="FEEDBACK_TORQUE_LIMITO" description="Servos" set_size="FEEDBACK_POSITION" />-->
+	<!--<output name="Diff" description="Difference goal pos och annat"/>-->
 
-    <module class = "Constant" name = "MovingSpeedF2" outputsize = "1"  data = "0.4"/>
-    <module class = "Constant" name = "MovingSpeedF3" outputsize = "1"  data = "0.4"/>
-    <module class = "Constant" name = "MovingSpeedF4" outputsize = "1"  data = "0.4"/>
-    <module class = "Constant" name = "MovingSpeedF5" outputsize = "1"  data = "0.4"/>
 
-    <!--Connection för hur snabbt motorerna rör sig-->
-    <connection  sourcemodule = "MovingSpeedF2"  source = "OUTPUT" targetmodule = "Servo2" target = "MOVING_SPEED"/>
-    <connection  sourcemodule = "MovingSpeedF3"  source = "OUTPUT" targetmodule = "Servo3" target = "MOVING_SPEED"/>
-    <connection  sourcemodule = "MovingSpeedF4"  source = "OUTPUT" targetmodule = "Servo4" target = "MOVING_SPEED"/>
-    <connection  sourcemodule = "MovingSpeedF5"  source = "OUTPUT" targetmodule = "Servo5" target = "MOVING_SPEED"/>
+	<module class="Statistics" />
 
-      <!--Metrics för Voltage Ampere och Temp -->
-    <view name="TEMP, VOLTAGE O AMP" object_size="50" >
-      <!--SERVO 2,3,4,5 - ELEKTRICITET, -->
-      <object class="BarGraph" title="Servo2 (V)" module = "Servo2" source = "FEEDBACK_PRESENT_VOLTAGE" x="1" y="0"  w="2" h="2"  max="20"/>
-      <object class="BarGraph" title="Servo3 (V)" module = "Servo3" source = "FEEDBACK_PRESENT_VOLTAGE" x="4" y="0"  w="2" h="2"  max="20"/>
-      <object class="BarGraph" title="Servo4 (V)" module = "Servo4" source = "FEEDBACK_PRESENT_VOLTAGE" x="7" y="0"  w="2" h="2"  max="20"/>
-      <object class="BarGraph" title="Servo5 (V)" module = "Servo5" source = "FEEDBACK_PRESENT_VOLTAGE" x="10" y="0"  w="2" h="2"  max="20"/>
-
-      <!--PLOT FÖR EL-->
-      <object class="Plot" title="Servo2 (V)" module = "Servo2" source = "FEEDBACK_PRESENT_VOLTAGE" x="0" y="3"  w="2" h="2"  max="20"/>
-      <object class="Plot" title="Servo3 (V)" module = "Servo3" source = "FEEDBACK_PRESENT_VOLTAGE" x="3" y="3"  w="2" h="2"  max="20"/>
-      <object class="Plot" title="Servo4 (V)" module = "Servo4" source = "FEEDBACK_PRESENT_VOLTAGE" x="6" y="3"  w="2" h="2"  max="20"/>
-      <object class="Plot" title="Servo5 (V)" module = "Servo5" source = "FEEDBACK_PRESENT_VOLTAGE" x="9" y="3"  w="2" h="2"  max="20"/>
-
-      <!--SERVO 2,3,4,5 - Temperatur -->
-      <object class="BarGraph" title="Servo2 (°C)" module = "Servo2" source = "FEEDBACK_PRESENT_TEMPERATURE" x="0" y="6" w="2" h="2" max="80"/>
-      <object class="BarGraph" title="Servo3 (°C)" module = "Servo3" source = "FEEDBACK_PRESENT_TEMPERATURE" x="3" y="6" w="2" h="2" max="80"/>
-      <object class="BarGraph" title="Servo4 (°C)" module = "Servo4" source = "FEEDBACK_PRESENT_TEMPERATURE" x="6" y="6" w="2" h="2" max="80"/>
-      <object class="BarGraph" title="Servo5 (°C)" module = "Servo5" source = "FEEDBACK_PRESENT_TEMPERATURE" x="9" y="6" w="2" h="2" max="80"/>
-
-      <!--PLOT för TEMP-->
-      <object class="Plot" title="Servo2 (°C)" module = "Servo2" source = "FEEDBACK_PRESENT_TEMPERATURE" x="0" y="9" w="2" h="2" max="80"/>
-      <object class="Plot" title="Servo3 (°C)" module = "Servo3" source = "FEEDBACK_PRESENT_TEMPERATURE" x="3" y="9" w="2" h="2" max="80"/>
-      <object class="Plot" title="Servo4 (°C)" module = "Servo4" source = "FEEDBACK_PRESENT_TEMPERATURE" x="6" y="9" w="2" h="2" max="80"/>
-      <object class="Plot" title="Servo5 (°C)" module = "Servo5" source = "FEEDBACK_PRESENT_TEMPERATURE" x="9" y="9" w="2" h="2" max="80"/>
-
-      <!--mA ström för varje servo-->
-      <object class="BarGraph" title="Servo1 (mA)" module = "Servo2" source = "FEEDBACK_PRESENT_CURRENT" x="0" y="12" w="2" h="2" max="100"/>
-      <object class="BarGraph" title="Servo2 (mA)" module = "Servo3" source = "FEEDBACK_PRESENT_CURRENT" x="3" y="12" w="2" h="2" max="100"/>
-      <object class="BarGraph" title="Servo3 (mA)" module = "Servo4" source = "FEEDBACK_PRESENT_CURRENT" x="6" y="12" w="2" h="2" max="100"/>
-      <object class="BarGraph" title="Servo4 (mA)" module = "Servo5" source = "FEEDBACK_PRESENT_CURRENT" x="9" y="12" w="2" h="2" max="100"/>
-      <!--Plot för STRÖM-->
-      <object class="Plot" title="Servo1 (mA)" module = "Servo2" source = "FEEDBACK_PRESENT_CURRENT" x="0" y="15" w="2" h="2" max="100"/>
-      <object class="Plot" title="Servo2 (mA)" module = "Servo3" source = "FEEDBACK_PRESENT_CURRENT" x="3" y="15" w="2" h="2" max="100"/>
-      <object class="Plot" title="Servo3 (mA)" module = "Servo4" source = "FEEDBACK_PRESENT_CURRENT" x="6" y="15" w="2" h="2" max="100"/>
-      <object class="Plot" title="Servo4 (mA)" module = "Servo5" source = "FEEDBACK_PRESENT_CURRENT" x="9" y="15" w="2" h="2" max="100"/>
-
-      <!--FEEDBACK_PRESENT_LOAD - Total laddning av servon-->
-      <object  class="Plot" title="Servo2(LOAD)" module = "Servo2" source = "FEEDBACK_PRESENT_LOAD" x="0" y="18" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Servo3(LOAD)" module = "Servo3" source = "FEEDBACK_PRESENT_LOAD" x="3" y="18" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Servo4(LOAD)" module = "Servo4" source = "FEEDBACK_PRESENT_LOAD" x="6" y="18" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Servo5(LOAD)" module = "Servo5" source = "FEEDBACK_PRESENT_LOAD" x="9" y="18" w="2" h="2" min="-1" max="1" />
-
-    </view>
-
-    <view name="Position" object_size="50" >
-      <!--POSITION för servo 2,3,4,5 i Table-->
-      <object class="Table" module = "Servo2" source = "FEEDBACK_PRESENT_POSITION" x="0" y="0" w="3" h="2" font_size = "30"/>
-      <object class="Table" module = "Servo3" source = "FEEDBACK_PRESENT_POSITION" x="4" y="0" w="3" h="2" font_size = "30"/>
-      <object class="Table" module = "Servo4" source = "FEEDBACK_PRESENT_POSITION" x="8" y="0" w="3" h="2" font_size = "30"/>
-      <object class="Table" module = "Servo5" source = "FEEDBACK_PRESENT_POSITION" x="12" y="0" w="3" h="2" font_size = "30"/>
-
-      <!--Position för servo 2,3,4,5 I BarGraph-->
-      <object  class="BarGraph" title="Actual Positions" module = "Servo2" source = "data" x="0" y="3" w="2" h="2" max="360"/>
-      <object  class="BarGraph" title="Actual Positions" module = "Servo3" source = "data" x="4" y="3" w="2" h="2" max="360"/>
-      <object  class="BarGraph" title="Actual Positions" module = "Servo4" source = "data" x="8" y="3" w="2" h="2" max="360"/>
-      <object  class="BarGraph" title="Actual Positions" module = "Servo5" source = "data" x="12" y="3" w="2" h="2" max="360"/>
-    </view>
-    <view name="TORQUE o SPEED" object_size="50" >
-      <!--TORQUE och Speed-->
-      <object  class="BarGraph" title="TORQUEF2" module = "TorqueLimitF2" source = "OUTPUT"  x="1" y="0" w="2" h="2"  max="1"/>
-      <object  class="BarGraph" title="TORQUEF3" module = "TorqueLimitF3" source = "OUTPUT"  x="4" y="0" w="2" h="2"  max="1"/>
-      <object  class="BarGraph" title="TORQUEF4" module = "TorqueLimitF4" source = "OUTPUT"  x="7" y="0" w="2" h="2"  max="1"/>
-      <object  class="BarGraph" title="TORQUEF5" module = "TorqueLimitF5" source = "OUTPUT"  x="10" y="0" w="2" h="2"  max="1"/>
-
-      <!--TORQUE SLIDERS-->
-      <object class="Slider" title="TORQUEF2" module = "TorqueLimitF2" parameter = "data" xindex = "0"  x="3" y="0" h="2" max="1"/>
-      <object class="Slider" title="TORQUEF3" module = "TorqueLimitF3" parameter = "data" xindex = "3"  x="3" y="0" h="2" max="1"/>
-      <object class="Slider" title="TORQUEF4" module = "TorqueLimitF4" parameter = "data" xindex = "6"  x="3" y="0" h="2" max="1"/>
-      <object class="Slider" title="TORQUEF5" module = "TorqueLimitF5" parameter = "data" xindex = "9"  x="3" y="0" h="2" max="1"/>
-
-      <!--Rörelsehastighet för alla servos-->
-      <object  class="BarGraph" title="Speed" module = "MovingSpeedF2" source = "OUTPUT"  x="1" y="3" w="2" h="2"  max="1"/>
-      <object  class="BarGraph" title="Speed" module = "MovingSpeedF3" source = "OUTPUT"  x="4" y="3" w="2" h="2"  max="1"/>
-      <object  class="BarGraph" title="Speed" module = "MovingSpeedF4" source = "OUTPUT"  x="7" y="3" w="2" h="2"  max="1"/>
-      <object  class="BarGraph" title="Speed" module = "MovingSpeedF5" source = "OUTPUT"  x="10" y="3" w="2" h="2"  max="1"/>
-
-      <!--SLIDER för Samtliga SPEEDOBJEKT-->
-      <object class="Slider" title="Speed" module = "MovingSpeedF2" parameter = "data" xindex = "0"  x="3" y="3" h="2" max="1"/>
-      <object class="Slider" title="Speed" module = "MovingSpeedF3" parameter = "data" xindex = "3"  x="3" y="3" h="2" max="1"/>
-      <object class="Slider" title="Speed" module = "MovingSpeedF4" parameter = "data" xindex = "6"  x="3" y="3" h="2" max="1"/>
-      <object class="Slider" title="Speed" module = "MovingSpeedF5" parameter = "data" xindex = "9"  x="3" y="3" h="2" max="1"/>
-    </view>
-
-      <!--PID REGULATORNS VÄRDEN-->
-    <view name="PID" object_size="50" >
-      <!--D I PID GAIN-->
-      <object  class="Plot" title="Load" module = "Servo2" source = "FEEDBACK_D_GAIN" x="0" y="0" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Load" module = "Servo3" source = "FEEDBACK_D_GAIN" x="3" y="0" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Load" module = "Servo4" source = "FEEDBACK_D_GAIN" x="6" y="0" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Load" module = "Servo5" source = "FEEDBACK_D_GAIN" x="9" y="0" w="2" h="2" min="-1" max="1" />
-      <!--I GAIN PID-->
-      <object  class="Plot" title="Load" module = "Servo2" source = "FEEDBACK_I_GAIN" x="0" y="3" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Load" module = "Servo3" source = "FEEDBACK_I_GAIN" x="3" y="3" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Load" module = "Servo4" source = "FEEDBACK_I_GAIN" x="6" y="3" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Load" module = "Servo5" source = "FEEDBACK_I_GAIN" x="9" y="3" w="2" h="2" min="-1" max="1" />
-      <!--P GAIN PID-->
-      <object  class="Plot" title="Load" module = "Servo2" source = "FEEDBACK_P_GAIN" x="0" y="6" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Load" module = "Servo3" source = "FEEDBACK_P_GAIN" x="3" y="6" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Load" module = "Servo4" source = "FEEDBACK_P_GAIN" x="6" y="6" w="2" h="2" min="-1" max="1" />
-      <object  class="Plot" title="Load" module = "Servo5" source = "FEEDBACK_P_GAIN" x="9" y="6" w="2" h="2" min="-1" max="1" />
-    </view>
-  <!--  <object class="Switch" module="Switch" parameter="data" x="0" y="7" w="3"/>-->
+   <files>
+   		<file>Statistics.h</file>
+   		<file>Statistics.cc</file>
+   		<file>Statistics.ikc</file>
+   </files>
 
 </group>

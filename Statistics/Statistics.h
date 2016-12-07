@@ -19,30 +19,31 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#ifndef Statistics
-#define Statistics
+#ifndef Statistics_
+#define Statistics_
 
 #include "IKAROS.h"
 
-class Statistics: public Module {
+class Statistics: public Module
+{
 public:
 //INPUTS
     float *         input_temperature;
     float *         input_ampere;
     float *         input_voltage;
-    float *         input_torque
+    float *         input_torque;
     float *         input_GoalPosition;
-//OUTPUTS
-    float *         output_servoPosition;
+    float *         input_servoPosition;
+    
+    //OUTPUTS
     float *         output_torque;
-    float *         output_mWh
-
+    float *         output_mW;
 
 
     static Module * Create(Parameter * p) {return new Statistics(p);};
 
     Statistics(Parameter * p) : Module(p) {};
-    virtual ~Statistics();
+    virtual ~Statistics() {};
 
     void    Init();
     void    Tick();
