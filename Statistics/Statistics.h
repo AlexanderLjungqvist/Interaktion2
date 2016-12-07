@@ -35,6 +35,7 @@ public:
 //OUTPUTS
     float *         output_servoPosition;
     float *         output_torque;
+    float *         output_mWh
 
 
 

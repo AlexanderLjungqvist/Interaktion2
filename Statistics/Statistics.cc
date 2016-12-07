@@ -22,6 +22,8 @@ Statistics::Init()
     output_servoPosition = GetOutputArray("FEEDBACK_POSITION");
   //  OUTPUT_servo_id = GetOutputArray("OUTPUT_servo_id");
     output_torque = GetOutputArray("FEEDBACK_TORQUE_LIMIT");
+    output_mW = GetOutputArray("mWh");
+
 
     //FRÅGOR: Är temperaturen i int?
     //Hur kopplar jag samman temp osv för varje servo? SVAR: beror på arrayplats
@@ -75,7 +77,8 @@ int torque_temp;
       if(servoNbr === 6){
       servoNbr = 0;
       }
-
+      output_mW[0] = output_mW[0] + multiply(output_ampere[servoNbr], output_voltage[servoNbr]);
+      printf("%d\n",output_mW[0]);
     printf("%d\n", servoNbr);
     t++;
   }
