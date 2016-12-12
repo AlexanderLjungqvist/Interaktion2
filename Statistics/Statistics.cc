@@ -10,6 +10,8 @@ using namespace ikaros;
 void
 Statistics::Init()
 {
+    //Static value for using different measures in the tick function
+   // int t=0;
 //INPUTS
     input_voltage = GetInputArray("FEEDBACK_VOLTAGE");
     input_temperature = GetInputArray("FEEDBACK_TEMP");
@@ -22,45 +24,47 @@ Statistics::Init()
 
     }
 
+int * checkServoPositions(float * input_GoalPosition, float * input_servoPosition)
+{
+   static int returnArray[6];
+    for (int i = 0; i < 5; i++)
+        if (input_GoalPosition[i] != input_servoPosition[i])
+            returnArray[i] = 1;
+    else
+        returnArray[i] = 0;
+    
+    return(returnArray);
+}
+
+//Sänker tempot på TORQUEN vid varje klick - Sätter min limit på 0
+void
+Statistics::restingState(int index){
+    if(output_torque[index] >= 0.002)
+
+            output_torque[index] = output_torque[index] - 0.002;
+    
+}
+
+void
+Statistics::activeState(int index){
+           if(output_torque[index] <= 0.995)
+               output_torque[index] = output_torque[index] + 0.005;
+    
+}
+
+void almostEqual(){
+    
+}
+
 void
 Statistics::Tick()
 {
-  //TO-DO sänka samtliga torques ner till så lågt som möjligt - kommer dikteras av resultat från experiment. - ha en metod som gör detta.
-  if(CheckServoPositions){
-  activeState();
-  }
-  restingState();
-  //
-  private bool CheckServoPositions(){
-    if (input_servoPosition[0] != input_GoalPosition[0] || input_servoPosition[1] != input_GoalPosition[1] || input_servoPosition[2] != input_GoalPosition[2] || input_servoPosition[3] != input_GoalPosition[3] || input_servoPosition[4] != input_GoalPosition[4] || input_servoPosition[5] != input_GoalPosition[5]){
-        return true;
-    }
-
-    return false;
-  }
-  //Sänker tempot på TORQUEN vid varje klick - Sätter min limit på 0
-  public void restingState(){
-          if(output_torque[0] => 0.001){ output_torque[0] = output_torque[0] - 0.001;}
-          if(output_torque[1] => 0.001){ output_torque[1] = output_torque[1] - 0.001;}
-          if(output_torque[2] => 0.001){ output_torque[2] = output_torque[2] - 0.001;}
-          if(output_torque[3] => 0.001){ output_torque[3] = output_torque[3] - 0.001;}
-          if(output_torque[4] => 0.001){ output_torque[4] = output_torque[4] - 0.001;}
-          if(output_torque[5] => 0.001){ output_torque[5] = output_torque[5] - 0.001;}
-      }
-//Höjer tempot på TORQUE - limit satt till 1
-  public void activeState(){
-          if(output_torque[0] <= 0.995){ output_torque[0] = output_torque[0] + 0.005;}
-          if(output_torque[1] <= 0.995){ output_torque[1] = output_torque[1] + 0.005;}
-          if(output_torque[2] <= 0.995){ output_torque[2] = output_torque[2] + 0.005;}
-          if(output_torque[3] <= 0.995){ output_torque[3] = output_torque[3] + 0.005;}
-          if(output_torque[4] <= 0.995){ output_torque[4] = output_torque[4] + 0.005;}
-          if(output_torque[5] <= 0.995){ output_torque[5] = output_torque[5] + 0.005;}
-      }
-
-//Gjort ett värde för att sänka stora skillnader i ticket.
-  public void almostEqual(){
-
-      }
+    int * indexArray = checkServoPositions(input_GoalPosition, input_servoPosition);
+    for (int i = 0; i < sizeof(indexArray); i++)
+        if(indexArray[i] == 1)
+            activeState(i);
+   else
+    restingState(i);
 }
 // Install the module. This code is executed during start-up.
 

@@ -47,6 +47,9 @@ public:
 
     void    Init();
     void    Tick();
+    
+    void    restingState(int i);
+    void    activeState(int i);
 };
 
 #endif
