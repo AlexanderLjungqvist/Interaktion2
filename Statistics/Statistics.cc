@@ -10,74 +10,57 @@ using namespace ikaros;
 void
 Statistics::Init()
 {
-    //Samlat samtliga outputs viktiga för att kunna se vilka värden som ska och inte ska användas.
+//INPUTS
     input_voltage = GetInputArray("FEEDBACK_VOLTAGE");
     input_temperature = GetInputArray("FEEDBACK_TEMP");
     input_ampere = GetInputArray("FEEDBACK_CURRENT");
     input_torque = GetInputArray("FEEDBACK_TORQUE_LIMIT");
     input_GoalPosition = GetInputArray("GOAL_POSITION");
     input_servoPosition = GetInputArray("FEEDBACK_POSITION");
-    
-  //  OUTPUT_servo_id = GetOutputArray("OUTPUT_servo_id");
+//OUTPUTS
     output_torque = GetOutputArray("TORQUE_LIMIT");
-  //  output_mW = GetOutputArray("mW");
-
-
-    //FRÅGOR: Är temperaturen i int?
-    //Hur kopplar jag samman temp osv för varje servo? SVAR: beror på arrayplats
-    // Hur ska jag kunna hantera flera servos samtidigt utan att tråda processen? SVAR: detta görs via att köra tre moduler samtidigt.
-    //Hur fungerar indexerandet till servomotorerna när jag inte kan använda mig från ruta 0? SVAR: Hämtar alla i ordning
 
     }
 
-//Fråga om hur jag vet vilken motor som är ikopplad, borde man ändra värdena här? t.ex ha arrayen från 2-5 SVAR: Det fungerar automatiskt
-// Hur kopplar jag temp volt och ampere till en viss motor? SVAR: De är samma struktur på arraysen
 void
 Statistics::Tick()
 {
-  //TO DO - Lägga till vinkel för samtliga motorer, se om de har flyttats mycket under en ping, om den inte har det isåfall sänk systemet en del.
-  //Om den har rört på sig mycket är det rimligt att inte sänka strömmen.
-  //HA en ström från tidigare tick och se om de skiljer, möjligtvis med en push pop lista? där man lagrar värden och om det gått mer än 5 tick
-  //sedan mA senast pika kan man börja sänka hastigheten på motorerna.
-
-  //har roboten rört sig mkt sen förra tick? - ström?? - osv
-int servoNbr = 0;
-int torque_temp;
-
-//Går genom samtliga motorer, mäter upp värdena och om de är över en viss strömnivå går det igång en if-sats som sänker torquen tills det att ström når en
-//behaglig nivå igen. Kan i framtiden konfliktera vilket gör att den bara sänker en motor i taget --ATT GÖRA-- se till att sänka temperaturen på flera motorer samtidigt.
-// LÖST: Köra flera moduler samtidigt.
-
-    //printar ut alla värden för en servo  - oklart om detta fungerar
-    printf("%f\n", input_temperature[servoNbr]);
-    printf("%f\n", input_ampere[servoNbr]);
-    printf("%f\n", input_voltage[servoNbr]);
-
-    torque_temp = output_torque[servoNbr];
-    if(input_ampere[servoNbr] > 300){
-      printf("%s\n", "Holy moly time to slow down");
-      output_torque[servoNbr] = output_torque[servoNbr] - 0.02;
-      printf("%f\n", output_torque[servoNbr]);
-
-
-        //För att återställa torquen
-        if(torque_temp > output_torque[servoNbr]){
-          printf("%s\n","Raising back torque to previous value...");
-          output_torque[servoNbr] = output_torque[servoNbr] + 0.02;
-          printf("%f\n", output_torque[servoNbr]);
-        }
-      //Detta görs för att starta om loopen och hålla koll på alla servomotorer -
-      //ATTGÖRA - lägg till formel så att beroende på motor har man en viss mA som gräns.
-      servoNbr ++;
-      if(servoNbr == 6){
-      servoNbr = 0;
-      }
-    //  output_mW[0] = output_mW[0] + multiply(input_ampere[servoNbr], input_voltage[servoNbr]);
-     // printf("%d\n",output_mW[0]);
-    printf("%d\n", servoNbr);
-
+  //TO-DO sänka samtliga torques ner till så lågt som möjligt - kommer dikteras av resultat från experiment. - ha en metod som gör detta.
+  if(CheckServoPositions){
+  activeState();
   }
+  restingState();
+  //
+  private bool CheckServoPositions(){
+    if (input_servoPosition[0] != input_GoalPosition[0] || input_servoPosition[1] != input_GoalPosition[1] || input_servoPosition[2] != input_GoalPosition[2] || input_servoPosition[3] != input_GoalPosition[3] || input_servoPosition[4] != input_GoalPosition[4] || input_servoPosition[5] != input_GoalPosition[5]){
+        return true;
+    }
 
+    return false;
+  }
+  //Sänker tempot på TORQUEN vid varje klick - Sätter min limit på 0
+  public void restingState(){
+          if(output_torque[0] => 0.001){ output_torque[0] = output_torque[0] - 0.001;}
+          if(output_torque[1] => 0.001){ output_torque[1] = output_torque[1] - 0.001;}
+          if(output_torque[2] => 0.001){ output_torque[2] = output_torque[2] - 0.001;}
+          if(output_torque[3] => 0.001){ output_torque[3] = output_torque[3] - 0.001;}
+          if(output_torque[4] => 0.001){ output_torque[4] = output_torque[4] - 0.001;}
+          if(output_torque[5] => 0.001){ output_torque[5] = output_torque[5] - 0.001;}
+      }
+//Höjer tempot på TORQUE - limit satt till 1
+  public void activeState(){
+          if(output_torque[0] <= 0.995){ output_torque[0] = output_torque[0] + 0.005;}
+          if(output_torque[1] <= 0.995){ output_torque[1] = output_torque[1] + 0.005;}
+          if(output_torque[2] <= 0.995){ output_torque[2] = output_torque[2] + 0.005;}
+          if(output_torque[3] <= 0.995){ output_torque[3] = output_torque[3] + 0.005;}
+          if(output_torque[4] <= 0.995){ output_torque[4] = output_torque[4] + 0.005;}
+          if(output_torque[5] <= 0.995){ output_torque[5] = output_torque[5] + 0.005;}
+      }
+
+//Gjort ett värde för att sänka stora skillnader i ticket.
+  public void almostEqual(){
+
+      }
 }
 // Install the module. This code is executed during start-up.
 

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<group name="newConstant" description="">
+
+	<input name = "GOAL_POSITION" description="INPUT Goal POS" />
+	<input name = "FEEDBACK_POSITION" description="Servo POS" />
+
+	<output name = "GOAL_OUTPUT_POSITION" description="OUTPUT Goal POS" size_set="FEEDBACK_POSITION" />
+
+
+	<module class="newConstant"/>
+   <files>
+   		<file>newConstant.h</file>
+   		<file>newConstant.cc</file>
+   		<file>newConstant.ikc</file>
+   </files>
+</group>
