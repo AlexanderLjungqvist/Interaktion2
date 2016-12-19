@@ -34,10 +34,11 @@ public:
     float *         input_torque;
     float *         input_GoalPosition;
     float *         input_servoPosition;
-    
+
     //OUTPUTS
     float *         output_torque;
     float *         output_mW;
+    float *         energyConsumptionValue;
 
 
     static Module * Create(Parameter * p) {return new Statistics(p);};
@@ -47,7 +48,8 @@ public:
 
     void    Init();
     void    Tick();
-    
+
+    void    energyConsumption();
     void    restingState(int i);
     void    activeState(int i);
 };
