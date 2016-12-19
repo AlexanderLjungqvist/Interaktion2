@@ -19,7 +19,10 @@ Statistics::Init()
     input_servoPosition = GetInputArray("FEEDBACK_POSITION");
 //OUTPUTS
     output_torque = GetOutputArray("TORQUE_LIMIT");
-    energyConsumptionValue;
+
+    float energyConsumptionValue = 0;
+    float energyConsumptionRightNowValue = 0;
+
 
     }
 
@@ -50,6 +53,17 @@ Statistics::energyConsumption(float * input_ampere, float * input_voltage){
   energyConsumptionValue += temp;
 }
 
+void
+Statistics::energyConsumptionRightNow(float * input_ampere, float * input_voltage){
+  float temp = 0;
+  for(int i=0; i<5; i++){
+    temp += (input_ampere[i] * input_voltage);
+  }
+  temp = temp/0.02;
+  energyConsumptionPerSecondValue = temp;
+}
+
+
 //Sänker tempot på TORQUEN vid varje klick - Sätter min limit på 0
 void
 Statistics::restingState(int index){
@@ -69,8 +83,13 @@ Statistics::activeState(int index){
 void
 Statistics::Tick()
 {
-  //Total effekt ut
-    energyConsumption(input_ampere, input_voltage);
+  //Räknar ut totala effekten med tid i aspekt.
+   energyConsumption(input_ampere, input_voltage);
+   printf("%d\n", energyConsumptionValue);
+
+      //Totala effekten ut exakt just nu
+     energyConsumptionRightNow(input_ampere, input_voltage);
+     printf("%d\n", energyConsumptionRightNowValue);
 
     int * indexArray = checkServoPositions(input_GoalPosition, input_servoPosition);
     for (int i = 0; i < sizeof(indexArray); i++)
@@ -81,6 +100,7 @@ Statistics::Tick()
     print_array("Torque", output_torque, 6);
     print_array("input_GoalPosition", input_GoalPosition, 6);
     print_array("Torinput_servoPositionque", input_servoPosition, 6);
+    t++;
 }
 // Install the module. This code is executed during start-up.
 
