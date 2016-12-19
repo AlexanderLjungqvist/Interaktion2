@@ -28,7 +28,7 @@ int * checkServoPositions(float * input_GoalPosition, float * input_servoPositio
 {
    static int returnArray[6];
     for (int i = 0; i < 5; i++)
-        if (input_GoalPosition[i] != input_servoPosition[i])
+        if (abs(input_GoalPosition[i]-input_servoPosition[i]) > 2)
             returnArray[i] = 1;
     else
         returnArray[i] = 0;
@@ -65,6 +65,9 @@ Statistics::Tick()
             activeState(i);
    else
     restingState(i);
+    print_array("Torque", output_torque, 6);
+    print_array("input_GoalPosition", input_GoalPosition, 6);
+    print_array("Torinput_servoPositionque", input_servoPosition, 6);
 }
 // Install the module. This code is executed during start-up.
 
