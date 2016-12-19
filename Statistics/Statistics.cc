@@ -59,7 +59,6 @@ Statistics::energyConsumptionRightNow(float * input_ampere, float * input_voltag
   for(int i=0; i<5; i++){
     temp += (input_ampere[i] * input_voltage);
   }
-  temp = temp/0.02;
   energyConsumptionPerSecondValue = temp;
 }
 
