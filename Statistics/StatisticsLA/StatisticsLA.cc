@@ -1,5 +1,5 @@
 
-#include "Statistics.h"
+#include "StatisticsLA.h"
 
 // use the ikaros namespace to access the math library
 // this is preferred to using <cmath>
@@ -8,7 +8,7 @@ using namespace ikaros;
 
 
 void
-Statistics::Init()
+StatisticsLA::Init()
 {
 //INPUTS
     input_voltage = GetInputArray("FEEDBACK_VOLTAGE");
@@ -44,7 +44,7 @@ int * checkServoPositions(float * input_GoalPosition, float * input_servoPositio
 }
 
 void
-Statistics::energyConsumption(float * input_ampere, float * input_voltage){
+StatisticsLA::energyConsumption(float * input_ampere, float * input_voltage){
   float temp = 0;
   for(int i=0; i<5; i++){
     temp += (input_ampere[i] * input_voltage);
@@ -54,7 +54,7 @@ Statistics::energyConsumption(float * input_ampere, float * input_voltage){
 }
 
 void
-Statistics::energyConsumptionRightNow(float * input_ampere, float * input_voltage){
+StatisticsLA::energyConsumptionRightNow(float * input_ampere, float * input_voltage){
   float temp = 0;
   for(int i=0; i<5; i++){
     temp += (input_ampere[i] * input_voltage);
@@ -65,7 +65,7 @@ Statistics::energyConsumptionRightNow(float * input_ampere, float * input_voltag
 
 //Sänker tempot på TORQUEN vid varje klick - Sätter min limit på 0
 void
-Statistics::restingState(int index){
+StatisticsLA::restingState(int index){
     if(output_torque[index] >= 0.002)
 
             output_torque[index] = output_torque[index] - 0.002;
@@ -73,14 +73,14 @@ Statistics::restingState(int index){
 }
 //Höjet tempot på TORQUEN vid varje klick - Sätter max limit på 1
 void
-Statistics::activeState(int index){
+StatisticsLA::activeState(int index){
            if(output_torque[index] <= 0.995)
                output_torque[index] = output_torque[index] + 0.005;
 
 }
 
 void
-Statistics::Tick()
+StatisticsLA::Tick()
 {
   //Räknar ut totala effekten med tid i aspekt.
    energyConsumption(input_ampere, input_voltage);
@@ -103,4 +103,4 @@ Statistics::Tick()
 }
 // Install the module. This code is executed during start-up.
 
-static InitClass init("Statistics", &Statistics::Create, "/Users/grupp15/Desktop/Interaktion2/Statistics/");
+static InitClass init("StatisticsLA", &StatisticsLA::Create, "/Users/grupp15/Desktop/Interaktion2/Statistics/StatisticsLA");

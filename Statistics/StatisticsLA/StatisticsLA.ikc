@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
-<group name="Statistics" description="Made to regulate amount of power in the TORQUE for servos">
+<group name="StatisticsLA" description="Made to regulate amount of power in the TORQUE for servos">
 <!--
 	<example description="Our first module">
 		<module
-			class="StatisticsRegulator"
+			class="StatisticsLARegulator"
 			name="LAStat"
 		/>
 	</example>
@@ -25,12 +25,12 @@
 	<!--<output name="Diff" description="Difference goal pos och annat"/>-->
 
 
-	<module class="Statistics" />
+	<module class="StatisticsLA" />
 
    <files>
-   		<file>Statistics.h</file>
-   		<file>Statistics.cc</file>
-   		<file>Statistics.ikc</file>
+   		<file>StatisticsLA.h</file>
+   		<file>StatisticsLA.cc</file>
+   		<file>StatisticsLA.ikc</file>
    </files>
 
 </group>

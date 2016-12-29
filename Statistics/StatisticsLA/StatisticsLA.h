@@ -19,12 +19,12 @@
 //    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#ifndef Statistics_
-#define Statistics_
+#ifndef StatisticsLA_
+#define StatisticsLA_
 
 #include "IKAROS.h"
 
-class Statistics: public Module
+class StatisticsLA: public Module
 {
 public:
 //INPUTS
@@ -41,10 +41,10 @@ public:
     float *         energyConsumptionValue;
     float *         energyConsumptionRightNowValue;
 
-    static Module * Create(Parameter * p) {return new Statistics(p);};
+    static Module * Create(Parameter * p) {return new StatisticsLA(p);};
 
-    Statistics(Parameter * p) : Module(p) {};
-    virtual ~Statistics() {};
+    StatisticsLA(Parameter * p) : Module(p) {};
+    virtual ~StatisticsLA() {};
 
     void    Init();
     void    Tick();

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<group name="StatisticsRA" description="Made to regulate amount of power in the TORQUE for servos">
+
+	<input name = "GOAL_POSITION" description="Servo Goal POS" />
+	<input name = "FEEDBACK_POSITION" description="Servo POS" />
+    <input name = "FEEDBACK_TORQUE_LIMIT" description="Servo TORQUE_LIMIT"/>
+	<input name = "FEEDBACK_TEMP" description="Servo Temp" />
+
+	<!--Skapat modul för nedanstående i riktigt Ikaros-->
+	<output name = "TORQUE_LIMIT" description="Servo TORQUE_LIMIT" size_set ="FEEDBACK_POSITION" />
+	<input name = "FEEDBACK_VOLTAGE" description="Servo Voltage" />
+	<input name = "FEEDBACK_CURRENT" description="Servo Ampere" />
+
+
+	<module class="StatisticsRA" />
+
+   <files>
+   		<file>StatisticsRA.h</file>
+   		<file>StatisticsRA.cc</file>
+   		<file>StatisticsRA.ikc</file>
+   </files>
+
+</group>
