@@ -1,0 +1,423 @@
+<?xml version="1.0"?>
+
+<group name="EpiGreen Servos">
+	
+
+<module class = "Statistics" name = "LAStat"/>
+	<connection sourcemodule = "LeftArm"  source = "FEEDBACK_PRESENT_POSITION" 		targetmodule = "LAStat"  target = "FEEDBACK_POSITION" delay = "1"/>
+	
+	<connection sourcemodule = "LeftArm"  source = "FEEDBACK_TORQUE_LIMIT" 			targetmodule = "LAStat"  target = "FEEDBACK_TORQUE_LIMIT" delay = "1"/>
+	<connection sourcemodule = "LAStat"  source = "TORQUE_LIMIT" 					targetmodule = "LeftArm"  target = "TORQUE_LIMIT" delay = "1"/>
+
+	<connection sourcemodule = "LeftArm"  source = "FEEDBACK_PRESENT_VOLTAGE" 		targetmodule = "LAStat"  target = "FEEDBACK_VOLTAGE" delay = "1"/>
+	<connection sourcemodule = "LeftArm"  source = "FEEDBACK_PRESENT_TEMPERATURE" 	targetmodule = "LAStat"  target = "FEEDBACK_TEMP" delay = "1"/>
+	<connection sourcemodule = "LeftArm"  source = "FEEDBACK_PRESENT_CURRENT" 		targetmodule = "LAStat"  target = "FEEDBACK_CURRENT" delay = "1"/>
+	<connection sourcemodule = "LeftArm"  source = "FEEDBACK_GOAL_POSITION" 		targetmodule = "LAStat"  target = "GOAL_POSITION" delay = "1"/>
+
+<!-- Set a manual positions -->
+<module class = "Constant" name = "H_POS" data = "0 0 0 0" />
+<module class = "Constant" name = "LA_POS" data = "0 0 0 0 0 0" />
+<module class = "Constant" name = "RA_POS" data = "0 0 0 0 0 0" />
+
+    <connection sourcemodule = "H_POS"  		source = "OUTPUT" 	targetmodule = "H_Guard"  	target = "INPUT"  delay = "1"/>
+    <connection sourcemodule = "LA_POS"  		source = "OUTPUT" 	targetmodule = "LA_Guard"  	target = "INPUT"  delay = "1"/>
+    <connection sourcemodule = "RA_POS"  		source = "OUTPUT" 	targetmodule = "RA_Guard"  	target = "INPUT"  delay = "1"/>
+
+  <view name="SlidersServo" object_size="50" >
+    <object class="Slider" title="Position0" module = "LA_POS" parameter = "data" select ="0" xindex = "0"  x="2" y="2" h="2"  max="180"/>
+    <object class="Slider" title="Position1" module = "LA_POS" parameter = "data" select ="1" xindex = "0"  x="4" y="2" h="2"  max="180"/>
+    <object class="Slider" title="Position2" module = "LA_POS" parameter = "data" select ="2" xindex = "0"  x="6" y="2" h="2"  max="180"/>
+    <object class="Slider" title="Position3" module = "LA_POS" parameter = "data" select ="3" xindex = "0"  x="8" y="2" h="2"  max="180"/>
+    <object class="Slider" title="Position4" module = "LA_POS" parameter = "data" select ="4" xindex = "0"  x="10" y="2" h="2" max="180"/>
+    <object class="Slider" title="Position5" module = "LA_POS" parameter = "data" select ="5" xindex = "0"  x="12" y="2" h="2" max="180"/>
+          
+          <object class="Table" module = "LA_POS" source = "OUTPUT" x="0" y="0" w="6" h="2" font_size = "12"/>
+
+
+    </view>
+ 
+<_module class="newConstant" name="newConstant"/>
+	<_connection sourcemodule = "LeftArm"  		source = "FEEDBACK_PRESENT_POSITION" 		targetmodule = "newConstant"  	target = "FEEDBACK_POSITION" delay = "1"/>
+	<_connection sourcemodule = "LeftArm" 		source = "FEEDBACK_GOAL_POSITION" 			targetmodule = "newConstant"  	target = "GOAL_POSITION" delay = "1"/>
+	<_connection sourcemodule = "newConstant"  	source = "GOAL_OUTPUT_POSITION" 			targetmodule = "LeftArm"		target = "GOAL_POSITION" delay = "1"/>
+      
+     
+
+
+    	<!-- TORQUE_LIMIT, TORQUE_ENABLE and TORQUE_SPEED. Connected directed -->
+<!-- Set a manual speed -->
+<!-- Mental note: Speed is set for all motions -->
+<module class = "Constant" name = "H_SPEED" data = "0.02 0.02 0.02 0.02" />
+<module class = "Constant" name = "LA_SPEED" data = "0.02 0.02 0.02 0.02 0.02 0.02" />
+<module class = "Constant" name = "RA_SPEED" data = "0.02 0.02 0.02 0.02 0.02 0.02" />
+	<connection sourcemodule = "H_SPEED"  source = "OUTPUT" targetmodule = "Head"  target = "MOVING_SPEED" delay = "1"/>
+	<connection sourcemodule = "LA_SPEED"  source = "OUTPUT" targetmodule = "LeftArm"  target = "MOVING_SPEED" delay = "1"/>
+	<connection sourcemodule = "RA_SPEED"  source = "OUTPUT" targetmodule = "RightArm"  target = "MOVING_SPEED" delay = "1"/>
+
+<!-- Torque limit -->
+<module class = "Constant" name = "H_TORQUE_LIMIT" data = "0.02 0.02 0.02 0.02" />
+<module class = "Constant" name = "LA_TORQUE_LIMIT" data = "0.25 0.25 0.25 0.25 0.25 0.25" />
+<module class = "Constant" name = "RA_TORQUE_LIMIT" data = "0.02 0.02 0.02 0.02 0.02 0.02" />
+	<connection sourcemodule = "H_TORQUE_LIMIT"  source = "OUTPUT" targetmodule = "Head"  target = "TORQUE_LIMIT" delay = "1"/>
+	<_connection sourcemodule = "LA_TORQUE_LIMIT"  source = "OUTPUT" targetmodule = "LeftArm"  target = "TORQUE_LIMIT" delay = "1"/>
+	<connection sourcemodule = "RA_TORQUE_LIMIT"  source = "OUTPUT" targetmodule = "RightArm"  target = "TORQUE_LIMIT" delay = "1"/>
+	
+<!-- Torque enable -->
+<module class = "Constant" name = "H_TORQUE_ENABLE" data = "1 1 1 1" />
+<module class = "Constant" name = "LA_TORQUE_ENABLE" data = "1 1 1 1 1 1" />
+<module class = "Constant" name = "RA_TORQUE_ENABLE" data = "1 1 1 1 1 1" />
+	<connection sourcemodule = "H_TORQUE_ENABLE"  source = "OUTPUT" targetmodule = "Head"  target = "TORQUE_ENABLE" delay = "1"/>
+	<connection sourcemodule = "LA_TORQUE_ENABLE"  source = "OUTPUT" targetmodule = "LeftArm"  target = "TORQUE_ENABLE" delay = "1"/>
+	<connection sourcemodule = "RA_TORQUE_ENABLE"  source = "OUTPUT" targetmodule = "RightArm"  target = "TORQUE_ENABLE" delay = "1"/>
+	
+
+
+	
+	     <!--Metrics för Voltage Ampere och Temp -->
+  	  <view name="TEMP, VOLTAGE O AMP" object_size="50" >
+      <!--SERVO 2,3,4,5 - ELEKTRICITET, -->
+      <object class="BarGraph" title="Head (V)" module = "Head" source = "FEEDBACK_PRESENT_VOLTAGE" x="0" y="0"  w="4" h="2"  max="20"/>
+      <object class="BarGraph" title="LeftArm (V)" module = "LeftArm" source = "FEEDBACK_PRESENT_VOLTAGE" x="4" y="0"  w="4" h="2"  max="20"/>
+      <object class="BarGraph" title="RightArm (V)" module = "RightArm" source = "FEEDBACK_PRESENT_VOLTAGE" x="8" y="0"  w="4" h="2"  max="20"/>
+      
+	  <object class="Table" module="Head" source="FEEDBACK_PRESENT_VOLTAGE" x="0" y="2" w="4" h="1"/>
+	  <object class="Table" module="LeftArm" source="FEEDBACK_PRESENT_VOLTAGE" x="4" y="2" w="4" h="1"/>
+	  <object class="Table" module="RightArm" source="FEEDBACK_PRESENT_VOLTAGE" x="8" y="2" w="4" h="1"/>
+      
+
+      <!--PLOT FÖR EL-->
+      <object class="Plot" title="Head (V)" module = "Head" source = "FEEDBACK_PRESENT_VOLTAGE" x="0" y="3"  w="4" h="2"  max="20"/>
+      <object class="Plot" title="LeftArm (V)" module = "LeftArm" source = "FEEDBACK_PRESENT_VOLTAGE" x="4" y="3"  w="4" h="2"  max="20"/>
+      <object class="Plot" title="RightArm (V)" module = "RightArm" source = "FEEDBACK_PRESENT_VOLTAGE" x="8" y="3"  w="4" h="2"  max="20"/>
+      
+     
+
+      <!--SERVO 2,3,4,5 - Temperatur -->
+      <object class="BarGraph" title="Head (°C)" module = "Head" source = "FEEDBACK_PRESENT_TEMPERATURE" x="0" y="6" w="4" h="2" max="80"/>
+      <object class="BarGraph" title="LeftArm (°C)" module = "LeftArm" source = "FEEDBACK_PRESENT_TEMPERATURE" x="4" y="6" w="4" h="2" max="80"/>
+      <object class="BarGraph" title="RightArm (°C)" module = "RightArm" source = "FEEDBACK_PRESENT_TEMPERATURE" x="8" y="6" w="4" h="2" max="80"/>
+      
+      <object class="Table" module="Head" source="FEEDBACK_PRESENT_TEMPERATURE" x="0" y="8" w="4" h="1"/>
+      <object class="Table" module="LeftArm" source="FEEDBACK_PRESENT_TEMPERATURE" x="4" y="8" w="4" h="1"/>
+      <object class="Table" module="RightArm" source="FEEDBACK_PRESENT_TEMPERATURE" x="8" y="8" w="4" h="1"/>
+      
+
+      <!--PLOT för TEMP-->
+      <object class="Plot" title="Head (°C)" module = "Head" source = "FEEDBACK_PRESENT_TEMPERATURE" x="0" y="9" w="4" h="2" max="80"/>
+      <object class="Plot" title="LeftArm (°C)" module = "LeftArm" source = "FEEDBACK_PRESENT_TEMPERATURE" x="4" y="9" w="4" h="2" max="80"/>
+      <object class="Plot" title="RightArm (°C)" module = "RightArm" source = "FEEDBACK_PRESENT_TEMPERATURE" x="8" y="9" w="4" h="2" max="80"/>
+     
+
+      <!--mA ström för varje servo-->
+      <object class="BarGraph" title="Head (mA)" module = "Head" source = "FEEDBACK_PRESENT_CURRENT" x="0" y="12" w="4" h="2" min ="-5" max="5"/>
+      <object class="BarGraph" title="LeftArm (mA)" module = "LeftArm" source = "FEEDBACK_PRESENT_CURRENT" x="4" y="12" w="4" h="2" min ="-5" max="5"/>
+      <object class="BarGraph" title="RightArm (mA)" module = "RightArm" source = "FEEDBACK_PRESENT_CURRENT" x="8" y="12" w="4" h="2" min ="-5" max="5"/>
+      
+      <object class="Table" module="Head" source="FEEDBACK_PRESENT_CURRENT" x="0" y="14" w="4" h="1"/>
+      <object class="Table" module="LeftArm" source="FEEDBACK_PRESENT_CURRENT" x="4" y="14" w="4" h="1"/>
+      <object class="Table" module="RightArm" source="FEEDBACK_PRESENT_CURRENT" x="8" y="14" w="4" h="1"/>
+      
+      <!--Plot för STRÖM-->
+      <object class="Plot" title="Head (mA)" module = "Head" source = "FEEDBACK_PRESENT_CURRENT" x="0" y="15" w="4" h="2" max="100"/>
+      <object class="Plot" title="LeftArm (mA)" module = "LeftArm" source = "FEEDBACK_PRESENT_CURRENT" x="4" y="15" w="4" h="2" max="100"/>
+      <object class="Plot" title="RightArm (mA)" module = "RightArm" source = "FEEDBACK_PRESENT_CURRENT" x="8" y="15" w="4" h="2" max="100"/>
+
+      <!--FEEDBACK_PRESENT_LOAD - Total laddning av servon-->
+      <object  class="Plot" title="Head(LOAD)" module = "Head" source = "FEEDBACK_PRESENT_LOAD" x="0" y="18" w="4" h="2" min="-1" max="1" />
+      <object  class="Plot" title="LeftArm(LOAD)" module = "LeftArm" source = "FEEDBACK_PRESENT_LOAD" x="4" y="18" w="4" h="2" min="-1" max="1" />
+      <object  class="Plot" title="RightArm(LOAD)" module = "RightArm" source = "FEEDBACK_PRESENT_LOAD" x="8" y="18" w="4" h="2" min="-1" max="1" />
+      
+      <object class="Table" module="Head" source="FEEDBACK_PRESENT_LOAD" x="0" y="20" w="4" h="1"/>
+      <object class="Table" module="LeftArm" source="FEEDBACK_PRESENT_LOAD" x="4" y="20" w="4" h="1"/>
+      <object class="Table" module="RightArm" source="FEEDBACK_PRESENT_LOAD" x="8" y="20" w="4" h="1"/>
+
+    </view>
+
+    <view name="Position" object_size="50" >
+      <!--POSITION för servo 2,3,4,5 i Table-->
+      <object class="Table" module = "Head" source = "FEEDBACK_PRESENT_POSITION" x="0" y="2" w="4" h="1"/>
+      <object class="Table" module = "LeftArm" source = "FEEDBACK_PRESENT_POSITION" x="0" y="5" w="6" h="1"/>
+      <object class="Table" module = "RightArm" source = "FEEDBACK_PRESENT_POSITION" x="0" y="8" w="6" h="1"/>
+
+      <!--Position för servo 2,3,4,5 I BarGraph-->
+      <object  class="BarGraph" title="Actual Positions_H" module = "Head" source = "FEEDBACK_PRESENT_POSITION" x="0" y="0" w="4" h="2" max="360"/>
+      <object  class="BarGraph" title="Actual Positions_LA" module = "LeftArm" source = "FEEDBACK_PRESENT_POSITION" x="0" y="3" w="6" h="2" max="360"/>
+      <object  class="BarGraph" title="Actual Positions_RA" module = "RightArm" source = "FEEDBACK_PRESENT_POSITION" x="0" y="6" w="6" h="2" max="360"/>
+    </view>
+    
+    <view name="TORQUE o SPEED" object_size="50" >
+      <!--TORQUE och Speed    -->
+      <object  class="BarGraph" title="TORQUE_H" module = "H_TORQUE_LIMIT" source = "OUTPUT"  x="0" y="0" w="4" h="3"  max="1"/>
+      <object  class="BarGraph" title="TORQUE_LA" module = "LA_TORQUE_LIMIT" source = "OUTPUT"  x="6" y="0" w="6" h="3"  max="1"/>
+      <object  class="BarGraph" title="TORQUE_RA" module = "RA_TORQUE_LIMIT" source = "OUTPUT"  x="0" y="6" w="6" h="3"  max="1"/>
+      
+      <!--Table_CURRENT_LA-->
+      <object class="BarGraph" title="LeftArm (mA)" module = "LeftArm" source = "FEEDBACK_PRESENT_CURRENT" x="6" y="6" w="6" h="2" max="1000"/>
+      <object class="Table" module="LeftArm" source="FEEDBACK_PRESENT_CURRENT" x="6" y="6" w="4" h="1"/>
+      <object class="Table" module = "LeftArm" source = "FEEDBACK_PRESENT_POSITION" x="6" y="8" w="6" h="1"/>
+      
+      <!--bargraph_torquelimit_LA-->
+      <object class="BarGraph" title="LeftArm_Torque_Limit" module = "LeftArm" source = "FEEDBACK_TORQUE_LIMIT" x="6" y="9" w="6" h="2" max="1"/>
+      <object class="Table" module = "LeftArm" source = "FEEDBACK_TORQUE_LIMIT" x="6" y="11" w="6" h="1"/>
+      
+      
+
+       <!--TORQUE SLIDERS_HEAD-->
+      <object class="Slider" title="TORQUE_H0" module = "H_TORQUE_LIMIT" parameter = "data" select ="0"  x="0" y="3" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_H1" module = "H_TORQUE_LIMIT" parameter = "data" select ="1"  x="1" y="3" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_H2" module = "H_TORQUE_LIMIT" parameter = "data" select ="2"  x="2" y="3" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_H3" module = "H_TORQUE_LIMIT" parameter = "data" select ="3"  x="3" y="3" h="2" max="1"/>
+      
+        <!--Table_TOURQUE_HEAD-->
+      <object class="Table" module="H_TORQUE_LIMIT" source="OUTPUT" x="0" y="5" w="4 " h="1"/>
+      
+       <!--TORQUE SLIDERS_LA_Arm-->
+      <object class="Slider" title="TORQUE_LA0" module = "LA_TORQUE_LIMIT" parameter = "data" select ="0" x="6" y="3" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_LA1" module = "LA_TORQUE_LIMIT" parameter = "data" select ="1" x="7" y="3" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_LA2" module = "LA_TORQUE_LIMIT" parameter = "data" select ="2" x="8" y="3" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_LA3" module = "LA_TORQUE_LIMIT" parameter = "data" select ="3" x="9" y="3" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_LA4" module = "LA_TORQUE_LIMIT" parameter = "data" select ="4" x="10" y="3" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_LA5" module = "LA_TORQUE_LIMIT" parameter = "data" select ="5" x="11" y="3" h="2" max="1"/>
+    	
+    	 <!--Table_TOURQUE_LA-->
+        <object class="Table" module="LA_TORQUE_LIMIT" source="OUTPUT" x="6" y="5" w="6" h="1"/>
+      
+       <!--TORQUE SLIDERS_RA_Arm-->
+      <object class="Slider" title="TORQUE_RA0" module = "RA_TORQUE_LIMIT" parameter = "data" select ="0"  x="0" y="9" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_RA1" module = "RA_TORQUE_LIMIT" parameter = "data" select ="1"  x="1" y="9" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_RA2" module = "RA_TORQUE_LIMIT" parameter = "data" select ="2"  x="2" y="9" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_RA3" module = "RA_TORQUE_LIMIT" parameter = "data" select ="3"  x="3" y="9" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_RA4" module = "RA_TORQUE_LIMIT" parameter = "data" select ="4"  x="4" y="9" h="2" max="1"/>
+      <object class="Slider" title="TORQUE_RA5" module = "RA_TORQUE_LIMIT" parameter = "data" select ="5"  x="5" y="9" h="2" max="1"/>
+      
+      <!--Table_TOURQUE_RA-->
+        <object class="Table" module="RA_TORQUE_LIMIT" source="OUTPUT" x="0" y="11" w="6" h="1"/>
+
+
+
+
+
+      <!--Rörelsehastighet för alla servos-->
+      
+
+      <!--SLIDER för Samtliga SPEEDOBJEKT-->
+ 
+    </view>
+
+      <!--PID REGULATORNS VÄRDEN-->
+    <view name="PID" object_size="50" >
+      <!--D I PID GAIN-->
+      <object  class="Plot" title="Load_H" module = "Head" source = "FEEDBACK_D_GAIN" x="0" y="0" w="2" h="2" min="-1" max="1" />
+      <object  class="Plot" title="Load_LA" module = "LeftArm" source = "FEEDBACK_D_GAIN" x="3" y="0" w="2" h="2" min="-1" max="1" />
+      <object  class="Plot" title="Load_RA" module = "RightArm" source = "FEEDBACK_D_GAIN" x="6" y="0" w="2" h="2" min="-1" max="1" />
+      <!--I GAIN PID-->
+      <object  class="Plot" title="Load_H" module = "Head" source = "FEEDBACK_I_GAIN" x="0" y="3" w="2" h="2" min="-1" max="1" />
+      <object  class="Plot" title="Load_LA" module = "LeftArm" source = "FEEDBACK_I_GAIN" x="3" y="3" w="2" h="2" min="-1" max="1" />
+      <object  class="Plot" title="Load_RA" module = "RightArm" source = "FEEDBACK_I_GAIN" x="6" y="3" w="2" h="2" min="-1" max="1" />
+      <!--P GAIN PID-->
+      <object  class="Plot" title="Load_H" module = "Head" source = "FEEDBACK_P_GAIN" x="0" y="6" w="2" h="2" min="-1" max="1" />
+      <object  class="Plot" title="Load_LA" module = "LeftArm" source = "FEEDBACK_P_GAIN" x="3" y="6" w="2" h="2" min="-1" max="1" />
+      <object  class="Plot" title="Load_RA" module = "RightArm" source = "FEEDBACK_P_GAIN" x="6" y="6" w="2" h="2" min="-1" max="1" />
+      	  <!--  <object class="Switch" module="Switch" parameter="data" x="0" y="7" w="3"/>-->
+
+    </view>
+  
+
+
+	
+    <input name="GOAL_POSITION"       			targetmodule="SplitBody"             	target="INPUT" /> 
+    <input name="GOAL_POSITION"       			targetmodule="SplitHead"             	target="INPUT" /> 
+    <input name="GOAL_POSITION"       			targetmodule="SplitLeftArm"             target="INPUT" /> 
+    <input name="GOAL_POSITION"       			targetmodule="SplitRightArm"            target="INPUT" /> 
+    <input name="GOAL_POSITION"       			targetmodule="SplitPupil"             	target="INPUT" /> 
+
+    
+    <output name="BODY_FEEDBACK_POSITION"       sourcemodule="BODY_FEEBACK"             source="OUTPUT" />
+    <output name="HEAD_FEEDBACK_POSITION"       sourcemodule="H_SC_FeedBackPosition"    source="OUTPUT" />
+    <output name="LEFT_ARM_FEEDBACK_POSITION"   sourcemodule="LA_SC_FeedBackPosition"   source="OUTPUT" />
+    <output name="RIGHT_ARM_FEEDBACK_POSITION"  sourcemodule="RA_SC_FeedBackPosition"   source="OUTPUT" />
+    <output name="PUPIL_FEEDBACK_POSITION"      sourcemodule="P_OPEN"                 	source="OUTPUT" />
+
+    <module class = "Sink" name = "NotAvailable" />
+        <_connection sourcemodule = "SplitBody"  source = "OUTPUT" targetmodule = "NotAvailable"  target = "INPUT" delay = "1"/>
+        <_connection sourcemodule = "SplitPupil"  source = "OUTPUT" targetmodule = "NotAvailable"  target = "INPUT" delay = "1"/>
+
+
+	<!-- Splitting pos -->
+	<_module class = "TruncateArray" 	name = "SplitBody" array_length = "2" selection = "1 2" 				loop = "false"/>
+    <_module class = "TruncateArray" 	name = "SplitHead" array_length = "4" selection = "3 4 5 6" 			loop = "false"/>
+    <_module class = "TruncateArray" 	name = "SplitLeftArm" array_length = "6" selection = "7 8 9 10 11 12" 		loop = "false"/>
+    <_module class = "TruncateArray" 	name = "SplitRightArm" array_length = "6" selection = "13 14 15 16 17 18" 	loop = "false"/>
+    <_module class = "TruncateArray" 	name = "SplitPupil" array_length = "2" selection = "19 20" 				loop = "false"/>
+
+    
+    <!-- Body -->
+    <!-- No servoes in body -->
+    <module class = "Constant" name = "BODY_FEEBACK" data = "0 0"/> 
+
+    <!-- Head -->
+    
+	<module
+        class           = "MotionGuard"
+        name            = "H_Guard"
+        max_speed       = "100"
+        input_limit_min = "-60 -115 -12 -29"
+        input_limit_max = "65 110 30 11"
+        start_up_time   = "10"
+    />
+        <connection sourcemodule = "H_SC_FeedBackPosition"  source = "OUTPUT" 	targetmodule = "H_Guard"  	target = "REFERENCE"  delay = "1"/>
+        <_connection sourcemodule = "SplitHead"  			source = "OUTPUT" 	targetmodule = "H_Guard"  	target = "INPUT"  delay = "1"/>
+
+  <module
+		class="ServoConnector"
+		name="H_SC_GoalPosition"
+		connector       = "1 2 3 4"
+        pre_inverted    = "0 1 0 0" 
+        post_inverted   = "0 0 0 0" 
+        offset          = "180 180 180 180" 
+        output_size     = "4"
+	/>
+        <connection sourcemodule = "H_Guard"  source = "OUTPUT" targetmodule = "H_SC_GoalPosition"  target = "INPUT" delay = "0"/>
+
+
+    <module
+  		class 			= "Dynamixel"
+   		name 			= "Head"
+    	device  		= "/dev/cu.usbserial-FTU7LXIQ"
+    	index_mode 		= "indirect"
+   	 	print_info 		= "minimal"
+    	baud_rate 		= "1000000"
+    	angle_unit 		= "degrees"
+    	max_servo_id 	= "7"
+    	start_up_delay 	= "20"
+    	servo_id 		= "2, 3, 4, 5"
+    	strict_servo_id = "yes"
+    />
+	    <connection sourcemodule = "H_SC_GoalPosition" source = "OUTPUT" targetmodule = "Head" target = "GOAL_POSITION" delay = "0"/>
+
+
+
+    <module
+		class="ServoConnector"
+		name="H_SC_FeedBackPosition"
+		connector       = "1 2 3 4"
+        pre_inverted    = "0 0 0 0" 
+        post_inverted   = "0 1 0 0" 
+        offset          = "-180 -180 -180 -180" 
+        output_size     = "4"
+	/>
+        <connection sourcemodule = "Head"  source = "FEEDBACK_PRESENT_POSITION" targetmodule = "H_SC_FeedBackPosition"  target = "INPUT" delay = "0"/>
+
+    <!-- LEFT_ARM -->
+
+     <module
+        class           = "MotionGuard"
+        name            = "LA_Guard"
+        input_limit_min = "-125 -110 -125 -125 -125 -180"
+        input_limit_max = "126 110 126 50 126 180"
+        start_up_time   = "10"
+		max_speed       = "100"
+
+    />
+        <connection sourcemodule = "LA_SC_FeedBackPosition"  	source = "OUTPUT" targetmodule = "LA_Guard"  target = "REFERENCE" delay = "1"/>
+        <_connection sourcemodule = "SplitLeftArm"  				source = "OUTPUT" 	targetmodule = "LA_Guard"  	target = "INPUT"  delay = "1"/>
+
+    <module
+		class           = "ServoConnector"
+		name            = "LA_SC_GoalPosition"
+		connector       = "1 2 3 4 5 6"
+        pre_inverted    = "0 0 0 0 0 0" 
+        post_inverted   = "0 0 0 0 0 0" 
+        offset          = "251 98 155 82 94 160"
+        output_size     = "6"
+
+	/>
+        <connection sourcemodule = "LA_Guard"  source = "OUTPUT" targetmodule = "LA_SC_GoalPosition"  target = "INPUT" delay = "0"/>
+
+ <module
+    	class           = "Dynamixel"
+    	name            = "LeftArm"
+    	device          = "/dev/cu.usbserial-FTU7KTIU"
+    	_device          = "/dev/cu.usbserial-FTU7KTFT"
+    	
+    	index_mode      = "indirect"
+   	 	print_info 		= "minimal"
+    	baud_rate       = "1000000"
+    	angle_unit      = "degrees"
+		max_servo_id    = "9"
+		start_up_delay 	= "20"
+		servo_id        = "2, 3, 4, 5, 6, 7"
+		strict_servo_id = "yes"
+    />
+        <connection sourcemodule = "LA_SC_GoalPosition" source = "OUTPUT" targetmodule = "LeftArm" target = "GOAL_POSITION" delay = "0"/>
+
+    <module
+		class="ServoConnector"
+		name="LA_SC_FeedBackPosition"
+		connector       = "1 2 3 4 5 6"
+        pre_inverted    = "0 0 0 0 0 0" 
+    	post_inverted   = "0 0 0 0 0 0" 
+        offset          = "-180 -180 -180 -180 -180 -180" 
+        output_size     = "6"
+
+	/>
+        <connection sourcemodule = "LeftArm"  source = "FEEDBACK_PRESENT_POSITION" targetmodule = "LA_SC_FeedBackPosition"  target = "INPUT" delay = "0"/>
+
+   <!-- RIGHT_ARM -->
+
+     <module
+        class           = "MotionGuard"
+        name            = "RA_Guard"
+        input_limit_min = "-125 -110 -125 -50 -125 -180"
+        input_limit_max = "126 110 126 126 126 180"
+        start_up_time   = "10"
+        max_speed       = "100"
+    />
+        <connection sourcemodule = "RA_SC_FeedBackPosition"  source = "OUTPUT" targetmodule = "RA_Guard"  target = "REFERENCE" delay = "1"/>
+
+    <module
+		class           = "ServoConnector"
+		name            = "RA_SC_GoalPosition"
+		connector       = "1 2 3 4 5 6"
+        pre_inverted    = "0 1 0 0 0 0" 
+        post_inverted   = "0 0 0 0 0 0" 
+        offset          = "180 180 180 180 180 180" 
+        output_size     = "6"
+	/>
+        <connection sourcemodule = "RA_Guard"  source = "OUTPUT" targetmodule = "RA_SC_GoalPosition"  target = "INPUT" delay = "0"/>
+        <_connection sourcemodule = "SplitRightArm"  source = "OUTPUT" 	targetmodule = "RA_Guard"  	target = "INPUT"  delay = "1"/>
+
+ 	<module
+    	class           = "Dynamixel"
+    	name            = "RightArm"
+    	_device          = "/dev/cu.usbserial-FTX14QKA"
+    	device          = "/dev/cu.usbserial-A900fDcI"
+    	
+    	index_mode      = "indirect"
+   	 	print_info 		= "minimal"
+    	baud_rate       = "1000000"
+    	angle_unit      = "degrees"
+		max_servo_id    = "9"
+		start_up_delay 	= "20"
+		servo_id        = "2, 3, 4, 5, 6, 7"
+		strict_servo_id = "yes"
+    />
+        <connection sourcemodule = "RA_SC_GoalPosition" source = "OUTPUT" targetmodule = "RightArm" target = "GOAL_POSITION" delay = "0"/>
+        
+    <module
+		class="ServoConnector"
+		name="RA_SC_FeedBackPosition"
+		connector   	= "1 2 3 4 5 6"
+    	pre_inverted    = "0 0 0 0 0 0" 
+        post_inverted   = "0 1 0 0 0 0" 
+        offset      	= "-180 -180 -180 -180 -180 -180" 
+        output_size 	= "6"
+	/>
+        <connection sourcemodule = "RightArm"  source = "FEEDBACK_PRESENT_POSITION" targetmodule = "RA_SC_FeedBackPosition"  target = "INPUT" delay = "0" />
+
+
+	<!-- Pupil -->
+    <!-- No Pupil -->
+    <module class = "Constant" name = "P_OPEN" data = "8 8" /> <!-- mm -->
+</group>
+
