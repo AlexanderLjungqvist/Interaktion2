@@ -19,10 +19,8 @@ StatisticsRA::Init()
     input_servoPosition = GetInputArray("FEEDBACK_POSITION");
 //OUTPUTS
     output_torque = GetOutputArray("TORQUE_LIMIT");
-
+    output_energyvalue = GetOutputArray("OUTPUT_ENERGYVALUE");
     float energyConsumptionValue = 0;
-    float energyConsumptionRightNowValue = 0;
-
 
     }
 
@@ -72,9 +70,11 @@ StatisticsRA::activeState(int index){
 void
 StatisticsRA::Tick()
 {
-  //Räknar ut totala effekten med tid i aspekt.
-   energyConsumption(input_ampere, input_voltage);
-   printf("%d\n", energyConsumptionValue);
+  //Räknar ut totala effekten med tid i aspekt och skickar detta som en output till main fil.
+   //energyConsumption(input_ampere, input_voltage);
+   output_energyvalue = energyConsumption(input_ampere, input_voltage);
+
+   //printf("%d\n", energyConsumptionValue);
 
       //Totala effekten ut exakt just nu
 

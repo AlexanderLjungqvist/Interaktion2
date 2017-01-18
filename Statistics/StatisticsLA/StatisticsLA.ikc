@@ -1,28 +1,19 @@
 <?xml version="1.0"?>
 
 <group name="StatisticsLA" description="Made to regulate amount of power in the TORQUE for servos">
-<!--
-	<example description="Our first module">
-		<module
-			class="StatisticsLARegulator"
-			name="LAStat"
-		/>
-	</example>
--->
+
 	<input name = "GOAL_POSITION" description="Servo Goal POS" />
 	<input name = "FEEDBACK_POSITION" description="Servo POS" />
-    <input name = "FEEDBACK_TORQUE_LIMIT" description="Servo TORQUE_LIMIT"/>
+  <input name = "FEEDBACK_TORQUE_LIMIT" description="Servo TORQUE_LIMIT"/>
 	<input name = "FEEDBACK_TEMP" description="Servo Temp" />
 
 	<!--Skapat modul för nedanstående i riktigt Ikaros-->
 	<output name = "TORQUE_LIMIT" description="Servo TORQUE_LIMIT" size_set ="FEEDBACK_POSITION" />
+	<output name = "OUTPUT_ENERGYVALUE" description="Output total energy" size_set ="1" />
+
+
 	<input name = "FEEDBACK_VOLTAGE" description="Servo Voltage" />
 	<input name = "FEEDBACK_CURRENT" description="Servo Ampere" />
-
-
-
-	<!--<output name="FEEDBACK_TORQUE_LIMITO" description="Servos" set_size="FEEDBACK_POSITION" />-->
-	<!--<output name="Diff" description="Difference goal pos och annat"/>-->
 
 
 	<module class="StatisticsLA" />

@@ -37,7 +37,7 @@ public:
 
     //OUTPUTS
     float *         output_torque;
-    float *         output_mW;
+    float *         output_energyvalue;
     float *         energyConsumptionValue;
 
     static Module * Create(Parameter * p) {return new StatisticsRA(p);};

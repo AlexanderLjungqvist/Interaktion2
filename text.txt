@@ -8,6 +8,8 @@
 
 	<connection sourcemodule = "LeftArm"  source = "FEEDBACK_TORQUE_LIMIT" 			targetmodule = "LAStat"  target = "FEEDBACK_TORQUE_LIMIT" delay = "1"/>
 	<connection sourcemodule = "LAStat"  	source = "TORQUE_LIMIT" 					targetmodule = "LeftArm"  target = "TORQUE_LIMIT" delay = "1"/>
+	<connection sourcemodule = "LAStat"  	source = "TORQUE_LIMIT" 					targetmodule = "LeftArm"  target = "TORQUE_LIMIT" delay = "1"/>
+
 
 	<connection sourcemodule = "LeftArm"  source = "FEEDBACK_PRESENT_VOLTAGE" 		targetmodule = "LAStat"  target = "FEEDBACK_VOLTAGE" delay = "1"/>
 	<connection sourcemodule = "LeftArm"  source = "FEEDBACK_PRESENT_TEMPERATURE" 	targetmodule = "LAStat"  target = "FEEDBACK_TEMP" delay = "1"/>
@@ -15,30 +17,15 @@
 	<connection sourcemodule = "LeftArm"  source = "FEEDBACK_GOAL_POSITION" 		targetmodule = "LAStat"  target = "GOAL_POSITION" delay = "1"/>
 
 <module class = "StatisticsRA” name = ”RAStat"/>
-	<connection sourcemodule = ”RightArm”  source = "FEEDBACK_PRESENT_POSITION" 		targetmodule = ”RAStat”  target = "FEEDBACK_POSITION" delay = "1"/>
-
+	<connection sourcemodule = ”RightArm”  	source = "FEEDBACK_PRESENT_POSITION" 	targetmodule = ”RAStat”  target = "FEEDBACK_POSITION" delay = "1"/>
 	<connection sourcemodule = ”RightArm”  	source = "FEEDBACK_TORQUE_LIMIT" 			targetmodule = ”RAStat”  target = "FEEDBACK_TORQUE_LIMIT" delay = "1"/>
-	<connection sourcemodule = ”RAStat”  		source = "TORQUE_LIMIT" 					targetmodule = ”RightArm”  target = "TORQUE_LIMIT" delay = "1"/>
+	<connection sourcemodule = ”RAStat”  		source = "TORQUE_LIMIT" 							targetmodule = ”RightArm”  target = "TORQUE_LIMIT" delay = "1"/>
+
 
 	<connection sourcemodule = ”RightArm”  source = "FEEDBACK_PRESENT_VOLTAGE" 		targetmodule = ”RAStat”  target = "FEEDBACK_VOLTAGE" delay = "1"/>
 	<connection sourcemodule = ”RightArm”  source = "FEEDBACK_PRESENT_TEMPERATURE" 	targetmodule = ”RAStat"  target = "FEEDBACK_TEMP" delay = "1"/>
 	<connection sourcemodule = ”RightArm”  source = "FEEDBACK_PRESENT_CURRENT" 		targetmodule = ”RAStat"  target = "FEEDBACK_CURRENT" delay = "1"/>
 	<connection sourcemodule = ”RightArm”  source = "FEEDBACK_GOAL_POSITION" 		targetmodule = ”RAStat"  target = "GOAL_POSITION" delay = "1"/>
-
-<module class = "StatisticsHEAD” name = ”HeadStat"/>
-	<connection sourcemodule = ”Head”  source = "FEEDBACK_PRESENT_POSITION" 		targetmodule = ”HeadStat”  target = "FEEDBACK_POSITION" delay = "1"/>
-
-	<connection sourcemodule = "Head”  source = "FEEDBACK_TORQUE_LIMIT" 			targetmodule = ”HeadStat”  target = "FEEDBACK_TORQUE_LIMIT" delay = "1"/>
-	<connection sourcemodule = ”HeadStat”  source = "TORQUE_LIMIT" 			targetmodule = ”Head”  target = "TORQUE_LIMIT" delay = "1"/>
-
-	<connection sourcemodule = ”Head”  source = "FEEDBACK_PRESENT_VOLTAGE" 		targetmodule = ”HeadStat”  target = "FEEDBACK_VOLTAGE" delay = "1"/>
-	<connection sourcemodule = ”Head”  source = "FEEDBACK_PRESENT_TEMPERATURE" 		targetmodule = ”HeadStat”  target = "FEEDBACK_TEMP" delay = "1"/>
-	<connection sourcemodule = ”Head”  source = "FEEDBACK_PRESENT_CURRENT" 		targetmodule = ”HeadStat”  target = "FEEDBACK_CURRENT" delay = "1"/>
-	<connection sourcemodule = ”Head”  source = "FEEDBACK_GOAL_POSITION" 		targetmodule = ”HeadStat”  target = "GOAL_POSITION" delay = "1"/>
-
-
-
-
 
 <!-- Set a manual positions -->
 <module class = "Constant" name = "H_POS" data = "0 0 0 0" />
@@ -102,15 +89,8 @@
 
 
 	<view name="Position" object_size="50" >
-		<!--POSITION för servo 2,3,4,5 i Table-->
-		<object class="Table" module = "Head" source = "FEEDBACK_PRESENT_POSITION" x="0" y="2" w="4" h="1"/>
-		<object class="Table" module = "LeftArm" source = "FEEDBACK_PRESENT_POSITION" x="0" y="5" w="6" h="1"/>
-		<object class="Table" module = "RightArm" source = "FEEDBACK_PRESENT_POSITION" x="0" y="8" w="6" h="1"/>
-
-		<!--Position för servo 2,3,4,5 I BarGraph-->
-		<object  class="BarGraph" title="Actual Positions_H" module = "Head" source = "FEEDBACK_PRESENT_POSITION" x="0" y="0" w="4" h="2" max="360"/>
-		<object  class="BarGraph" title="Actual Positions_LA" module = "LeftArm" source = "FEEDBACK_PRESENT_POSITION" x="0" y="3" w="6" h="2" max="360"/>
-		<object  class="BarGraph" title="Actual Positions_RA" module = "RightArm" source = "FEEDBACK_PRESENT_POSITION" x="0" y="6" w="6" h="2" max="360"/>
+		<object  class="Label" title="Energy Consumption filter" module = "LAStat" source = "OUTPUT_ENERGYVALUE" x="2" y="3" w="6" h="4" w="4"/>
+		<object  class="Label" title="Energy Consumption no filter" module = "RAStat" source = "OUTPUT_ENERGYVALUE" x="5" y="3" w="6" h="4" w="4"/>
 	</view>
 
 	     <!--Metrics för Voltage Ampere och Temp -->

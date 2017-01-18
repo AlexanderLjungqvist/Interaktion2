@@ -19,10 +19,9 @@ StatisticsLA::Init()
     input_servoPosition = GetInputArray("FEEDBACK_POSITION");
 //OUTPUTS
     output_torque = GetOutputArray("TORQUE_LIMIT");
+    output_energyvalue = GetOutputArray("OUTPUT_ENERGYVALUE");
 
     float energyConsumptionValue = 0;
-    float energyConsumptionRightNowValue = 0;
-
 
     }
 
@@ -73,8 +72,8 @@ void
 StatisticsLA::Tick()
 {
   //Räknar ut totala effekten med tid i aspekt.
-   energyConsumption(input_ampere, input_voltage);
-   printf("%d\n", energyConsumptionValue);
+  output_energyvalue = energyConsumption(input_ampere, input_voltage);
+
 
     int * indexArray = checkServoPositions(input_GoalPosition, input_servoPosition);
     for (int i = 0; i < sizeof(indexArray); i++)
