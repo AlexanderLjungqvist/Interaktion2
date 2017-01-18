@@ -39,7 +39,6 @@ public:
     float *         output_torque;
     float *         output_mW;
     float *         energyConsumptionValue;
-    float *         energyConsumptionRightNowValue;
 
     static Module * Create(Parameter * p) {return new StatisticsRA(p);};
 
@@ -49,7 +48,6 @@ public:
     void    Init();
     void    Tick();
 
-    void    energyConsumptionRightNow();
     void    energyConsumption();
     void    restingState(int i);
     void    activeState(int i);

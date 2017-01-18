@@ -53,16 +53,6 @@ StatisticsLA::energyConsumption(float * input_ampere, float * input_voltage){
   energyConsumptionValue += temp;
 }
 
-void
-StatisticsLA::energyConsumptionRightNow(float * input_ampere, float * input_voltage){
-  float temp = 0;
-  for(int i=0; i<5; i++){
-    temp += (input_ampere[i] * input_voltage);
-  }
-  energyConsumptionPerSecondValue = temp;
-}
-
-
 //Sänker tempot på TORQUEN vid varje klick - Sätter min limit på 0
 void
 StatisticsLA::restingState(int index){
@@ -86,19 +76,15 @@ StatisticsLA::Tick()
    energyConsumption(input_ampere, input_voltage);
    printf("%d\n", energyConsumptionValue);
 
-      //Totala effekten ut exakt just nu
-     energyConsumptionRightNow(input_ampere, input_voltage);
-     printf("%d\n", energyConsumptionRightNowValue);
-
     int * indexArray = checkServoPositions(input_GoalPosition, input_servoPosition);
     for (int i = 0; i < sizeof(indexArray); i++)
         if(indexArray[i] == 1)
             activeState(i);
    else
             restingState(i);
-    print_array("Torque", output_torque, 6);
+    /*print_array("Torque", output_torque, 6);
     print_array("input_GoalPosition", input_GoalPosition, 6);
-    print_array("Torinput_servoPositionque", input_servoPosition, 6);
+    print_array("Torinput_servoPositionque", input_servoPosition, 6);*/
     t++;
 }
 // Install the module. This code is executed during start-up.

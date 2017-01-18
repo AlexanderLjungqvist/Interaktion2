@@ -4,7 +4,7 @@
 
 	<input name = "GOAL_POSITION" description="Servo Goal POS" />
 	<input name = "FEEDBACK_POSITION" description="Servo POS" />
-    <input name = "FEEDBACK_TORQUE_LIMIT" description="Servo TORQUE_LIMIT"/>
+  <input name = "FEEDBACK_TORQUE_LIMIT" description="Servo TORQUE_LIMIT"/>
 	<input name = "FEEDBACK_TEMP" description="Servo Temp" />
 
 	<!--Skapat modul för nedanstående i riktigt Ikaros-->
