@@ -73,7 +73,7 @@
 <module class = "Constant" name = "H_TORQUE_LIMIT" data = "0.25 0.25 0.25 0.25" />
 <module class = "Constant" name = "LA_TORQUE_LIMIT" data = "0.25 0.25 0.25 0.25 0.25 0.25" />
 <module class = "Constant" name = "RA_TORQUE_LIMIT" data = "0.25 0.25 0.25 0.25 0.25 0.25" />
-	<_connection sourcemodule = "H_TORQUE_LIMIT"  source = "OUTPUT" targetmodule = "Head"  target = "TORQUE_LIMIT" delay = "1"/>
+	<connection sourcemodule = "H_TORQUE_LIMIT"  source = "OUTPUT" targetmodule = "Head"  target = "TORQUE_LIMIT" delay = "1"/>
 	<_connection sourcemodule = "LA_TORQUE_LIMIT"  source = "OUTPUT" targetmodule = "LeftArm"  target = "TORQUE_LIMIT" delay = "1"/>
 	<_connection sourcemodule = "RA_TORQUE_LIMIT"  source = "OUTPUT" targetmodule = "RightArm"  target = "TORQUE_LIMIT" delay = "1"/>
 
