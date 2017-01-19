@@ -38,8 +38,8 @@ public:
     //OUTPUTS
     float *         output_torque;
     float *         output_energyvalue;
-    float *         energyConsumptionValue;
-
+    float           energyConsumptionValue;
+    
     static Module * Create(Parameter * p) {return new StatisticsLA(p);};
 
     StatisticsLA(Parameter * p) : Module(p) {};
@@ -47,8 +47,11 @@ public:
 
     void    Init();
     void    Tick();
+    
+    int * checkServoPositions(float * input_GoalPosition, float * input_servoPosition);
 
-    void    energyConsumption();
+    float   almostEqual(float index, float index2);
+    void    energyConsumption(float * output_energyvalue, float * input_ampere, float * input_voltage);
     void    restingState(int i);
     void    activeState(int i);
 };

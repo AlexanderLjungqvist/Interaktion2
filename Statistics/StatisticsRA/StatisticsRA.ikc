@@ -9,7 +9,7 @@
 
 	<!--Skapat modul för nedanstående i riktigt Ikaros-->
 	<output name = "TORQUE_LIMIT" description="Servo TORQUE_LIMIT" size_set ="FEEDBACK_POSITION" />
-	<output name = "OUTPUT_ENERGYVALUE" description="Output total energy" size_set ="1" />
+	<output name = "OUTPUT_ENERGYVALUE" description="Output total energy" size ="1" />
 
 
 	<input name = "FEEDBACK_VOLTAGE" description="Servo Voltage" />

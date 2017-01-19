@@ -20,20 +20,24 @@ StatisticsRA::Init()
 //OUTPUTS
     output_torque = GetOutputArray("TORQUE_LIMIT");
     output_energyvalue = GetOutputArray("OUTPUT_ENERGYVALUE");
-    float energyConsumptionValue = 0;
+    energyConsumptionValue = 0;
 
     }
 
-float * almostEqual(float index, float index2){
-      float totDiff = abs(index - index2);
-        return totDiff;
-    }
+float
+StatisticsRA::almostEqual(float index, float index2){
+    float totDiff = abs(index - index2);
+    return totDiff;
+}
 
-int * checkServoPositions(float * input_GoalPosition, float * input_servoPosition)
+int *
+StatisticsRA:: checkServoPositions(float * input_GoalPosition, float * input_servoPosition)
 {
+    float number = (float)2;
+
    static int returnArray[6];
     for (int i = 0; i < 5; i++)
-    if(almostEqual(input_GoalPosition[i],input_servoPosition[i]) > 2)
+    if(almostEqual(input_GoalPosition[i],input_servoPosition[i]) > number)
             returnArray[i] = 1;
     else
         returnArray[i] = 0;
@@ -42,13 +46,15 @@ int * checkServoPositions(float * input_GoalPosition, float * input_servoPositio
 }
 
 void
-StatisticsRA::energyConsumption(float * input_ampere, float * input_voltage){
+StatisticsRA::energyConsumption(float * output_energyvalue, float * input_ampere, float * input_voltage){
   float temp = 0;
   for(int i=0; i<5; i++){
-    temp += (input_ampere[i] * input_voltage);
+      temp += (abs(input_ampere[i]) * input_voltage[i]);
   }
-  temp = temp/50;
-  energyConsumptionValue += temp;
+    temp = temp/50;
+    energyConsumptionValue += temp;
+    
+    output_energyvalue[0] = energyConsumptionValue;
 }
 
 //Sänker tempot på TORQUEN vid varje klick - Sätter min limit på 0
@@ -72,7 +78,7 @@ StatisticsRA::Tick()
 {
   //Räknar ut totala effekten med tid i aspekt och skickar detta som en output till main fil.
    //energyConsumption(input_ampere, input_voltage);
-   output_energyvalue = energyConsumption(input_ampere, input_voltage);
+    energyConsumption(output_energyvalue, input_ampere, input_voltage);
 
    //printf("%d\n", energyConsumptionValue);
 
@@ -85,8 +91,8 @@ StatisticsRA::Tick()
   /*  print_array("Torque", output_torque, 6);
     print_array("input_GoalPosition", input_GoalPosition, 6);
     print_array("Torinput_servoPositionque", input_servoPosition, 6);*/
-    t++;
+    //t++;
 }
 // Install the module. This code is executed during start-up.
 
-static InitClass init("StatisticsRA", &StatisticsRA::Create, "/Users/grupp15/Desktop/Interaktion2/Statistics/StatisticsRA");
+static InitClass init("StatisticsRA", &StatisticsRA::Create, "/Users/grupp15/Desktop/Interaktion2/Statistics/StatisticsRA/");
